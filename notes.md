@@ -521,3 +521,317 @@ a instalar o Android Studio;
 a criar um projeto Android;
 a criar uma Activity;
 a adicionar comportamentos na Activity.
+
+#### 04/09/2023
+
+@02-Aplicando layouts para Activities
+
+Agora que aprendemos a colocar comportamentos a mais na nossa Activity, vamos aproveitar esse momento e configurar Views personalizadas para apresentar aos usuários. Então, ao invés de usar o Toast que colocamos no nosso aplicativo, passaremos a colocar uma View específica para apresentar uma mensagem de maneira estática.
+Como podemos fazer isso? O primeiro passo é entrar na Activity, e existem até uns atalhos como o "Ctrl + N", utilizada para acessar uma classe. Como vimos, temos o nosso Toast, o qual acabamos utilizando para apresentar a mensagem, e colocaremos uma View específica dentro da Activity.
+
+Para isto, há um método específico na Activity para podermos setar essas duas Views: o Set Content View. Vamos apagar o nosso Toast e escrever esse setContentView(), a partir do qual podemos enviar um argumento do tipo View, então seria uma View que poderíamos colocar. Uma View que representa um texto e é muito comum de ser utilizada é a famosa TextView.
+
+Faremos agora a instância desta View, e aí sim, colocamos o conteúdo esperado. Como vimos, podemos criar a nossa View via código Java mesmo, ela espera um argumento, daremos "Ctrl + P", e teremos quatro opções de sobrecarga, e o que ela exige, pelo menos aqui, é que seja um contexto. Sabe que Activity é um contexto, então poderemos deixar this. Agora podemos atribuir para um objeto, então .var, e precisamos indicar o que ele representa; nesse caso, já que estamos fazendo uma agenda de alunos, ele representará o aluno.
+
+Assim, podemos colocar um aluno, em seguida colocaremos a informação de texto, pois até o momento apenas criamos esta View, e queremos incluir uma informação textual, com setText(). É muito simples criar essa View, então podemos executar o aplicativo e vê-la em nosso layout.
+
+Daremos um "Shift + F10", vamos abrir nossos emulador e ver o Android Studio executando o aplicativo com essa View. Parece que a execução não teve nenhum problema e ele aparece bonitinho para nós. Só que com essa técnica que fizemos, que realmente funciona e não teve nenhum tipo de problema, não é considerada uma boa prática, porque estamos colocando responsabilidades demais para a nossa Activity, e perceberemos durante o curso que isso é uma entidade que tende a crescer bastante no código, e quanto menos responsabilidade mantivermos dentro dela, melhor.
+
+Trata-se de um dos detalhes importantes para tomarmos cuidado quando tentamos criar a View de maneira manual, e veremos também que quando fazemos isso o código tende a ficar complexo, por mais que seja uma View simples. Existe outra técnica, com que fazemos com que essas declarações consideradas estáticas fiquem dentro de um arquivo estático, específico para layout. Então pegaremos toda essa implementação que fizemos e a colocaremos em um arquivo específico para layout, e então pegaremos esse arquivo como referência para o nosso setContentView() ao invés de fazer tudo via código Java.
+
+A própria equipe de desenvolvedores do Android disponibiliza essa técnica e a recomenda para a criação de Views. Vamos fazer isso, mas de que maneira ? Como é que poderemos criar esse arquivo estático, aonde que ele fica, como isso funciona? Voltaremos ao projeto, na aba "Project" e no módulo "app", e na parte de embaixo, nos diretórios, temos o "res", também conhecido como resources, onde manteremos os arquivos estáticos. Por padrão, temos algumas pastinhas, e vamos entender um pouquinho do que elas são e para que servem.
+
+A primeira delas é justamente essa "drawable", em que incluiremos todas as imagens estáticas, então, se formos colocar um ícone novo, ou uma imagem para aparecer em uma View. Existem alguns arquivos que foram inclusos automaticamente assim que criamos o aplicativo, como é o caso do ic_launcher_background.xml, que é o fundo com o nosso ícone para podermos lançar o nosso aplicativo.
+
+Assim como o ic_launcher_foreground.xml, que representa o ícone. Temos esse "mipmap", outra pasta destinada a ícones do nosso Launcher. Temos também a versão arredondada, então terão algumas diferenciações no "mipmap", criado para a inclusão deste ícone automaticamente para nós. Por fim temos o "values", em que teremos a capacidade de criar arquivos diversos com alguns valores específicos, para cores, por exemplo, como colors.xml e strings.xml.
+
+E também temos styles.xml, que representa justamente os estilos que teremos em nosso aplicativo, que possui um tema um pouquinho verde, isto por causa do styles.xml, que usa por padrão esse estilo chamado AppTheme. Poderíamos criar outros sem nenhum problema, a princípio não mexeremos nisso, mas é para isso que ele serve. São esses arquivos padrões que acabamos tendo quando criamos o nosso projeto de maneira manual.
+
+Mas aonde deixamos aquele arquivo estático para o layout?
+
+Dado que não temos um diretório pronto, iremos criá-lo. Acessaremos a pasta "res", usaremos "Alt + Insert" e, dentre as opções, há o "Android Resource Directory", ali são criadas pastas feitas para os resources. Dentro dela temos a opção "Resource type", em que temos algumas opções disponíveis, dentre as quais está layout que, ao ser selecionado, sugere-se que o nome seja esse "layout". Por fim, é indicado onde ficará esse "Source set", isto é, os diretórios que vimos, de código de produção e de teste, e no caso estamos fazendo para produção, então deixaremos main.
+
+Então clicaremos em "OK", agora precisamos criar o arquivo para representar o layout. Para isso usamos também o atalho "Alt + Insert", que nos dará a opção "Layout resource file", em que criaremos o arquivo estático para layout. Após "Enter", precisaremos preencher algumas informações, começando pelo nome. Existe um padrão, que começa com o prefixo "activity", seguido de um underline, e então o nome da nossa Activity.
+
+Como vimos, temos a MainActivity, portanto deixaremos activity_main. É um padrão bem comum, e perceberemos isto quando criarmos activities de maneira automática. Logo abaixo, há outra opção, chamada de "Root Element", que irá representar o elemento raiz do layout, o primeiro elemento de todos. Existe até uma sugestão indicando esse LinearLayout. Não vamos nos preocupar com ele nesse primeiro momento, pois só estamos fazendo esse arquivo para vê-lo funcionando, mas em um segundo momento entenderemos passo a passo o que ele significa.
+
+Feitas as configurações, será criado o arquivo para nós. Agora vem um passo bem importante quando criamos este arquivo de layout: a visualização que estamos vendo aqui. Aumentaremos a tela com "Ctrl + Shift + F12", e agora entenderemos o que isso significa; essa visualização representa um editor visual capaz de modificar o layout que nos é disponibilizado de maneira estática. A partir dele é possível usar uma técnica bem comum entre designers, que é pegar elementos de acordo com sua paleta e ficar arrastando e soltando no layout. Isso é conhecido como Drag and Drop, e aqui à esquerda temos esta aba chamada "Palette".
+
+Trata-se da paleta de opções que temos à disposição, várias Views, até mesmo aquele TextView que usamos no código da Activity. Então, nesse momento, a partir dessa visualização, que é nosso editor visual, podemos clicar no TextView, segurar, arrastar e soltar no nosso layout, e quando fazemos isso, ele já consegue colocá-lo nesse nosso arquivo estático.
+
+Assim, a View é exibida, e o que queremos fazer é colocar um conteúdo diferente, com o nome que esperamos; para isso podemos clicar na View e, à direita, temos os atributos disponíveis, dentre os quais o "text", que modificaremos para Alex Felipe, e daremos um "Enter".
+
+Conseguimos criar o arquivo estático, que irá manter o nosso layout. Precisaremos pegar esse arquivo estático que criamos e colocá-lo no nosso setContentView(). Para podermos entrar direto na nossa Activity — mas tentarmos vir nesse navegador superior, que mostra todos os arquivos abertos, vemos que já está uma bagunça, está bem grande, cheio de arquivos abertos. Podemos fechar todos os arquivos e abrir aqueles que estamos usando. Para isso existe o atalho "Alt + Shift + X", com que tudo será fechado.
+
+E então voltamos ao Activity com "Ctrl + N", e agora sim, a nossa Activity está bonitinha. Agora, não usaremos a View de "maneira Java", programática. Iremos incluir a View a partir do nosso arquivo. Então deletaremos e, dentro de setContentView() teremos acesso àqueles arquivos estáticos que vimos.
+
+Mas como temos acesso a esses resources no Android?
+
+O Android nos fornece uma classe conhecida como classe R, então, se a colocarmos, temos a classe representada no nosso pacote, e ela faz um mapeamento de todos os recursos que temos em nosso projeto. Por exemplo, se queremos o mapeamento de layouts disponíveis do projeto, incluímos o R, que é do nosso pacote, damos "Enter", já que ele também faz parte do pacote raiz, e por isso não foi feito nenhum importe. E colocamos o layout, com que temos acesso a todos os arquivos inclusos no nosso layout.
+
+Incluímos o ponto, e o programa traz uma listinha do que há disponível em nosso projeto. Daremos "Enter", e nesse momento o que fizemos foi pegar o nosso layout estático e estamos colocando-o como View da nossa Activity, então ele vai apresentar exatamente esse arquivo que criamos. Vamos executar e ver o que acontece, com "Shift + F10", abriremos o emulador executando, e aguardaremos o Android Studio finalizar.
+
+O "Alex Felipe" está aparecendo; inclusive, se modificarmos o conteúdo para "Alex", vamos ver se o programa faz essa reflexão automaticamente. Agora, quando modificamos a execução e a repetimos, ele pegará novamente do arquivo de layout e vai mostrá-lo para nós. Essa técnica que acabamos utilizando para podermos colocar layouts na nossa Activity. Iremos sempre pegar a partir de um arquivo estático, a partir do qual será mostrada toda a parte visual, e aí sim colocamos no setContentView(), ao invés de colocarmos via código Java.
+
+A seguir entenderemos mais peculiaridades sobre como podemos montar o layout, entender um pouquinho sobre aquele LinearLayout que vimos, e ver quais são os princípios básicos existentes para montar layout diversos no Android.
+
+@@02
+Criando o layout da Activity
+
+Caso você precise do projeto com todas as alterações realizadas na aula passada, você pode baixá-lo neste link.
+Implemente o primeiro layout da Activity, para isso, crie o diretório layout na pasta res, em seguida, crie o arquivo de layout com o nome activity_main, nesse arquivo considere o LinearLayout como elemento raiz. Adicione um TextView com o texto indicando o nome de um aluno.
+
+Nesta atividade utilize o editor visual e a técnica de drag and drop (clicar, segurar e arrastar a view).
+Ao finalizar a implementação do layout, no onCreate() da MainActivity, chame o método setContentView() enviando a referência do arquivo estático de layout criado.
+
+Lembre-se que para pegar referência dos arquivos estáticos o Android oferece a classe R.
+Execute o App e veja se aparece o mesmo layout criado.
+
+https://github.com/alura-cursos/fundamentos-android-parte-1/archive/aula-1.zip
+
+O App deve apresentar a seguinte tela:
+
+
+Em código temos o seguinte resultado:
+
+package br.com.alura.agenda;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}
+
+@@03
+Iniciando a implementação de layout de lista
+
+Aprendemos a implementar layouts no Android por meio de arquivos estáticos de layout, então aproveitaremos esse momento para vermos um pouco sobre a proposta de implementação de layout que teremos durante o curso. Dessa maneira, em vez de implementarmos layouts sem objetivos.
+Temos um PDF indicando essa proposta em formato de simulação de uma solicitação de cliente, de uma implementação. Vamos dar uma olhada em como seria a primeira tela que teríamos que implementar, aquela em que estamos trabalhando, com uma lista de alunos exibindo os itens.
+
+Espera-se que tenha uma App bar com o título "Lista de alunos" que, no Android, é a barrinha que fica na parte de cima. Então, é esperado esse tipo de componente nessa tela, da mesma maneira que espera-se que tenha uma lista de alunos. E como podemos ver, há esse aluno, que é o Alex, e a aluna Fran, e a possibilidade de adicionarmos novos alunos, como é o caso do José, do Guilherme, e por aí vai.
+
+O que é esperado também é que exista um botão para adicionar um novo aluno. É indicado o visual desse botão, que seria esse círculo com esse iconezinho indicando que vai ter uma adição.
+
+Então, em relação à implementação de layout, o nosso foco será atingir esse objetivo, considerando o que já aprendemos, técnicas que vimos de implementação de layout, daremos início à implementação desse resultado final. Nesse momento, vamos focar na implementação da adição dessa lista para possibilitarmos a adição desses alunos.
+
+Voltaremos no Android Studio e, com base no que aprendemos e vimos, as formas com as quais acrescentamos componentes que vão representar textos, teríamos que colocar mais Text Views para possibilitar a adição de outros alunos e indicar que seria uma lista. Então vamos fazê-lo embaixo, ele já entrou na parte de baixo daquele primeiro que representa o Alex, e adicionaremos outro Text View.
+
+Adicionaremos só esses três, e agora pegaremos via código Java, e fazer um vínculo com estes Text Views, porque o que irá acontecer é que precisamos colocar de acordo com uma lista que receberemos. De repente receberemos uma lista de alunos de um arquivo, ou de um banco de dados interno, ou vamos puxar de um serviço online. Precisamos pegar de uma lista, de um conjunto de dados que temos no nosso aplicativo para podermos mostrar aqui na lista, e esse é o comportamento esperado.
+
+Agora aprenderemos como podemos pegar os componentes do arquivo estático e fazer o vínculo dos dados com o nosso código-fonte. Para isso, como sabemos, temos que vir na nossa Activity, e simularemos aqueles dados que vão vir, por exemplo, de algum lugar qualquer, resultando em uma lista.
+
+Então faremos essa lista que representará os nossos alunos. Para isso criaremos uma lista, mesmo, então teremos uma List de string, que importaremos, e então precisaremos colocar uma implementação para ele. A implementação que faremos será de um Array list mesmo. Dado que são dados de exemplos, e que ainda não temos, por exemplo, uma fonte de dados concreta, que virá de arquivo ou de um banco de dados, vamos incluir o famoso Array as list, que será uma lista dinâmica que criaremos agora.
+
+Pegaremos o Arrays, aquela classe, as List, para criarmos a nossa lista de maneira dinâmica, e vamos colocar alguns alunos de exemplo: o Alex, Fran, e o José. E agora precisamos pegar essas Views para o vínculo dos dados. Como poderemos fazê-lo?
+
+Cada vez que adicionamos uma View no Android Studio por meio do editor visual, ele coloca o identificador para elas. Então, ao clicarmos no Alex, ele tem como ID, nessa parte dos atributos à direita, o Text View. No segundo deles, ele tem como ID o Text View 4, e no outro um 5.
+
+Se fossemos colocando outras, ele iria incrementando com um número a mais. É dessa maneira que temos a capacidade de identificar as Views. Além disso, é dessa maneira que conseguimos pegá-la via nosso código Java — e qual seria o comportamento que poderíamos utilizar?
+
+Temos um método chamado Find View By ID, e quando o pegamos, conseguimos pegar a View com base no seu ID, que é o seu identificador. Assim, sabemos que temos que usar a classe R para termos acesso aos nossos resources e, em vez de um layout ou qualquer outro tipo de recurso, podemos usar diretamente o nosso ID, porque ele também faz parte do resources e identifica um recurso com base no que ele teve de identificador.
+
+Quando fazemos essa abordagem, por padrão, o que método vai devolver para nós? Ele vai devolver uma referência de uma View qualquer, pois como sabemos as Views do Android têm como classe base a View. No entanto estaremos lidando com o Text View, e não com uma genérica. Sendo assim, podemos modificar essa referência de View para um Text View, então mudaremos o nome para indicar o primeiro aluno, e logo em seguida, indicaremos que trata-se de um Text View. Dessa maneira, conseguiremos utilizá-la, com base no que implementamos no layout.
+
+Só para tentarmos entender o porquê disso acontecer dessa maneira, e por quê temos a capacidade de mudar para Text View sem nenhum problema, o Find View by ID devolve um Generics que estende de View. Ou seja, qualquer tipo de extensão de View, de classe ou componente que faça herança de View, pode ser colocada como referência.
+
+É por isso que não teve nenhum problema quando fizemos a mudança. Agora, precisamos só pegar as três referências, então vamos usar o "Ctrl + D" para copiarmos três vezes, e mudaremos tanto no ID, que são o Text View 4 e 5. E agora também temos a referência dos outros alunos, então seria o segundo aluno e o terceiro aluno. Aí, o que precisamos fazer é só colocar os dados. Por exemplo, aqui no primeiro aluno, podemos colocar com a informação do nosso primeiro aluno com base na nossa lista.
+
+Na nossa lista de alunos, podemos pegar a primeira posição, que é o 0, e da mesma maneira podemos fazer para os outros alunos com base nos nossos Text Views. Fazemos o mesmo com o terceiro aluno. Assim, pegamos as Views que colocamos no nosso layout, pegamos a nossa lista e fizemos o nosso vínculo.
+
+Agora vamos executar e ver se aparecem os alunos como esperado, vamos abrir o emulador e aguardar o Android Studio finalizar a execução para vermos o resultado. Estão aparecendo os nossos alunos, então conseguimos fazer a parte inicial da implementação da lista de alunos, porém, ela foi proposital para mostrar um problema que acontece se consideramos esse tipo de implementação.
+
+O primeiro problema é a inflexibilidade da nossa solução, pois não sabemos se a nossa solução sempre terá 3, ou 4 alunos, ou o número que for. Já temos esse tipo de problema, que é uma solução que vai ficar sempre suscetível a mudanças, então, se mudarmos para 4 alunos, ou qualquer outro número diferente de 3, teremos que modificar tanto nosso layout como o nosso código.
+
+Não é uma solução ideal para quando queremos lidar com listas, e da mesma maneira percebe-se que o código vai ficando cada vez maior, ou seja, se tivessem 10 alunos, seriam mais linhas que teríamos que colocar para colocar essa solução. Então, é realmente uma solução entre aspas, mas não é ideal para esse tipo de comportamento ou abordagem, considerando esse tipo de necessidade ou problema que acabamos de identificar.
+
+A seguir veremos uma técnica ideal para lidar com esse tipo de situação, quando temos uma coleção de Views. Da mesma maneira em que temos uma lista para colocarmos vários valores, também veremos a seguir de que forma teríamos uma lista para colocar várias Views, e dessa maneira evitamos esse tipo de abordagem, em que, para cada quantidade de dados que temos, temos que ficar modificando nosso código, buscando Views, fazendo vínculos e declarando no nosso layout.
+
+@@04
+Criando lista com TextView
+
+Dê início à implementação do layout que vai representar a lista de alunos conforme a imagem abaixo:
+
+Comece implementando as views que vão representar os alunos adicionando 3 TextViews. Em seguida, no código Java, busque as views por meio do método findViewById() enviando os ids via argumento.
+
+Lembre-se que o Android Studio nomeia o id dos TextViews com a técnica de incremento. Isso significa que os ids podem ser diferentes conforme foi visto em vídeo.
+Após ter acesso aos TextViews, crie uma lista de String com três alunos de exemplo, adicione cada um dos alunos nos TextViews de acordo com a posição, ou seja, no primeiro TextView adicione o aluno no índice 0, no segundo índice 1 e assim por diante.
+
+Ao finalizar o procedimento de vínculo, execute o App e veja se funciona como esperado.
+
+Dependendo da versão do Android Studio, a utilização do editor visual pode apresentar um resultado diferente do que foi visto em vídeo. Caso esteja com dificuldades para realizar as atividades, não se preocupe, a partir da terceira aula, é apresentada uma alternativa de edição de layout a partir de código fonte.
+
+@@O resultado visual fica da seguinte maneira:
+
+
+Em código temos o seguinte resultado:
+
+MainActivity.java
+package br.com.alura.agenda;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        List<String> alunos = new ArrayList<>(
+                Arrays.asList("Alex", "Fran", "Jose"));
+        TextView primeiroAluno = findViewById(R.id.textView);
+        TextView segundoAluno = findViewById(R.id.textView4);
+        TextView terceiroAluno = findViewById(R.id.textView5);
+        primeiroAluno.setText(alunos.get(0));
+        segundoAluno.setText(alunos.get(1));
+        terceiroAluno.setText(alunos.get(2));
+    }
+}COPIAR CÓDIGO
+É válido ressaltar que os números dos ids dos TextViews podem ser diferentes para você.
+
+@@05
+Utilizando AdapterViews para coleções de views
+
+Em situações nas quais precisamos de uma solução que tenha uma coleção de Views, ao invés de usarmos essa técnica que vimos agora, temos um componente específico que irá compor outras Views, então o que faremos agora será remover estes Text Views, que colocamos de maneira manual, e vamos usar esse componente que compõe Views.
+Vamos primeiro remover esses Text Views selecionando e apertando "Delete", e agora usaremos esse novo componente. Temos várias possibilidades para fazê-lo, dentre as opções, considerando que queremos uma lista de Views, existe um componente bem famoso, conhecido como List View, com capacidade de compor outras Views, que usaremos agora. Como é que podemos adicioná-lo? Podemos usar por meio da paleta, que usamos para poder adicionar o Text View, que podemos usar para adicionar essa List View.
+
+Porém, nessa primeira opção, ele não aparece para nós, então teríamos que vasculhar as opções para ver e achar essa List View, dado que sabemos o nome daquela que esperamos, podemos usar outra técnica: a busca de Views da paleta, então clicamos na lupinha e escrevemos o que esperamos, como é o caso da List View, se só escrevermos "list", ele faz um filtro das possibilidades e identifica o que queremos.
+
+Agora que ele apareceu, podemos usar a mesma técnica, de segurar, arrastar e soltar, o drag and drop. Quando colocamos a List View, o layout fez uma renderização de como seria o exemplo da List View com vários elementos. Então, realmente, é uma solução que espera um valor dinâmico para os elementos da lista, compondo qualquer tipo de elemento, então, se for 1 ele vai colocar para nós, 2, 10, seja lá a quantidade que for.
+
+Quando temos esse tipo de necessidade utilizamos uma View específica para receber esses itens, uma maneira dinâmica de resolver isso. Com isso, precisamos fazer o mesmo procedimento aplicado nos nossos Text Views — precisamos pegar o nosso conjunto de dados, que é nossa lista de alunos em código Java, e vinculá-la com a List View.
+
+Vamos voltar na Activity e, ao invés daquele código do Text View, iremos buscar primeiro a nossa List View e fazer esse vínculo de dados. Para buscarmos uma View, como aprendemos, utilizamos o método Find View by ID, e a nossa classe R. Pegaremos o ID daquela nossa List View, e sabemos que o Android coloca um ID por padrão, vamos ver qual foi colocado para a nossa lista.
+
+Clicamos nela e temos os atributos a que ela teve acesso e foram colocados automaticamente, e de ID foi colocado "_dynamic", um ID bem genérico, sem muito significado com base no que implementaremos. Em situações como essas, faz todo sentido considerarmos um padrão para nomearmos a nossa View, e aí já identificamos o que que ela significa para nós.
+
+E qual seria esse padrão que poderíamos considerar? Nós podemos clicar para podermos editar primeiro, vamos apagar, e o padrão que usaremos será colocar primeiro o nome do layout, então começaríamos da seguinte maneira: "activity_main", que seria realmente o prefixo que iremos colocar para todas as Views que são representadas nesse layout, e em seguida colocamos outro underline, padrão usado de sempre dividir por underline, e colocamos o que ele significa para nós; poderia ser List View, ou então "lista de alunos", que dá muito mais significado.
+
+É um ID bem bacana que podemos colocar para essa View, pois garantimos o significado que ela tem para nós no layout. Agora, sim, estamos pegando a nossa List View. Como vimos, se devolvermos, ele irá devolver uma referência de uma View qualquer, por ser um Generics, portanto inicialmente identificaremos que é uma lista de alunos, e em seguida indicamos que ele é uma List View, e não uma qualquer.
+
+Isso porque passaremos a trabalhar em cima de uma List View. Teremos que fazer em import, e estenderemos o código com "Ctrl + Shift + F12". Aprenderemos a fazer esse vínculo de dados. Nos nossos Text View tínhamos um comportamento, um método que já fazia o vínculo, o Set Text.
+
+Porém, na List View temos um procedimento um pouquinho diferente, porque em nossa lista de alunos não teremos um método do tipo Add ou Set nossa lista de alunos. Teremos outro componente, que é um intermediário responsável em pegar os dados que temos e renderizá-los com uma View desejada, e é dessa maneira que acabamos lidando com a List View.
+
+Esse componente, o intermediário, é conhecido como Adapter, então ao invés de fazermos o vínculo direto, iremos enviar um Adapter que fará esse vínculo para nós por meio do método Set Adapter. Aí, o que ele espera de implementação é uma interface, a List Adapter. Se tentarmos fazê-la por meio de uma implementação de classe anônima, que é fazer diretamente na instância, temos uma implementação bem complexa que não é ideal, mas fazemos justamente para essa configuração mínima.
+
+Ou seja, fazer um vínculo dos dados com base em uma View. Não é ideal, a não ser que quiséssemos fazer um Adapter próprio com base nas regras que a nossa List View emprega, aí realmente teríamos que usá-la. Isto é, existem implementações do próprio Android Framework que implementa o nosso List Adapter e só deixa os métodos necessários para uma implementação objetiva, e jogar os dados na nossa List View.
+
+Dentre as opções que temos, existe o Array Adapter, uma classe que já faz esta implementação, porém ele é muito mais simples e só precisa, por exemplo, enviar os argumentos via construtor, e ele já consegue fazer o vínculo dos dados e apresentar para nós sem nenhum problema. Então, para uma implementação simples e objetiva podemos considerar esse Array Adapter ao invés de um List Adapter.
+
+E como foi comentado, precisamos enviar os argumentos, e ele exige um Generics justamente para saber com qual tipo de dado ele irá lidar no meio do caminho. Temos uma lista de strings, logo, podemos enviar uma string, e indicar que cada elemento com que ele lidará é uma string do Java.
+
+Agora precisamos enviar os argumentos, e para vermos eles podemos usar "Ctrl + P". Temos uma sobrecarga bem grande, na qual o primeiro elemento sempre será um contexto, sendo assim podemos mudar o nosso próprio this, que representaria nossa Activity, que é um contexto. Em seguida, percebemos que ele espera um resources do tipo int, a ser representado por meio do layout que será apresentado no momento em que renderizar os nossos elementos.
+
+Esse layout que temos que enviar tem que ter pelo menos um Text View. Poderíamos estar criando um layout de maneira manual, como fizemos anteriormente, porém podemos usar layouts próprios do Android Framework, que também só possuem um Text View. E como é que podemos usar esses layouts?
+
+Em vez da classe R do nosso pacote, usaremos a classe R do Android, com que acessamos os layouts que vêm prontos do Android Framework, e dentre as opções existe algo que é muito comum quando utilizamos o nosso Array adapter, o Simple List Item, que é um layout disponível para podermos usar apenas Text View.
+
+Inclusive, se apertarmos "Ctrl + B" para irmos direto à implementação, ele mostra que ele é representado aqui por este Text View que vemos aqui. Desse modo, não modificamos esse layout, por ele ser um arquivo estático que o próprio Android mantém, sem a necessidade de ficarmos fazendo de maneira manual um layout que só tem um Text View.
+
+Por fim precisamos enviar, para completar esse nosso exemplo, a nossa própria lista, então teremos uma sobrecarga que recebe uma lista com os nossos alunos. Com essa pequena implementação, conseguimos adicionar os nossos elementos em uma solução de uma coleção de Views.
+
+Agora que colocamos a nossa lista de alunos, ele nem exige mais esse Generics, porque ele já faz aquela técnica de Operador diamante, que já infere o tipo com base nos tipos de dados que enviamos na nossa coleção. Feita a configuração do Adapter, o intermediário que faz o vínculo dos dados e a renderização da View, podemos executar o nosso aplicativo.
+
+O Android Studio conseguiu executar o nosso aplicativo, e agora os nossos elementos estão sendo exibidos. Inclusive, dão um efeito diferente quando clicamos nela, fica bem mais bonito. Além disso, ele é bem mais flexível, e pode-se adicionar outros elementos, uma lista maior, que não dará nenhum problema.
+
+Vamos fazer esse teste e adicionar mais alunos para ver se realmente a solução está sendo feita, como tínhamos comentado, uma solução flexível, então teremos a Maria, a Ana, e vamos ver como é que fica com essa quantidade maior de alunos, e se ele faz essa renderização para nós. Vamos abrir o emulador, e enquanto ele faz a execução, aparentemente ocorre mais rapidamente, porque somente alguns parâmetros foram modificados.
+
+Conseguiu fazer a primeira parte da implementação, de adicionar essa lista, por meio da nossa List View.
+
+Um detalhe bem importante ao considerarmos esse tipo de solução é que essas Views, que têm uma coleção delas e utiliza um Adapter, também são conhecidas como Adapter Views. Então, toda vez que você ouvir falar sobre um destes, trata-se realmente de uma View que irá compor outras com uma solução flexível, no sentido de conseguir adicionar uma quantidade de itens de maneira dinâmica sem ser um valor fixo, é preciso fazer a mudança conforme essa quantidade.
+
+Aprendemos sobre o uso da List View, e existem outros Adapter Views. Para finalizar essa parte, a List View é um dos componentes iniciais do Android Framework, o que significa que, com base na evolução do programa, surgiram outras soluções com comportamentos similares, só que de maneira sofisticada. Não comentaremos muito no curso pois isso é para um segundo momento, porém haverá um exercício extra indicando essas soluções sofisticadas, bem como a recomendação usada atualmente como alternativa à List View.
+
+Ela é uma solução simples e objetiva para esse tipo de cenário, que pode ser usada sem nenhum problema, apesar de não ser tão usada quanto antigamente, no começo do Android.
+
+@@06
+Utilizando o ListView
+
+Utilize o componente ListView para implementar a lista de alunos no layout. Para isso, remova os TextViews, adicione o componente ListView e no código Java busque-o com o findViewById().
+Configure o Adapter a partir da classe ArrayAdapter enviando o contexto, layout do Android Framework (android.R.layout.simple_list_item_1) e a lista de alunos via argumento.
+
+Execute o App e veja se aparece a lista como o esperado.
+
+Dependendo da versão do Android Studio, a utilização do editor visual pode apresentar um resultado diferente do que foi visto em vídeo. Caso esteja com dificuldades para realizar as atividades, não se preocupe, a partir da terceira aula, é apresentada uma alternativa de edição de layout a partir de código fonte.
+
+Após execução deve aparecer a lista de alunos da seguinte maneira:
+
+
+O código de implementação fica da seguinte maneira:
+
+MainActivity.java
+package br.com.alura.agenda;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        List<String> alunos = new ArrayList<>(
+                Arrays.asList("Alex", "Fran", "Jose", "Maria", "Ana"));
+        ListView listaDeAlunos = findViewById(R.id.activity_main_lista_de_alunos);
+        listaDeAlunos.setAdapter(new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                alunos));
+    }
+}COPIAR C
+
+@@07
+Sobre layouts no Resources
+
+Aprendemos a implementar layouts para Activities, porém, chegamos a conclusão de que implementar via arquivo estático dentro do Resources é uma abordagem ideal. Por quais motivos a abordagem via arquivo estático é mais benéfica?
+
+Para evitar a complexidade do código da Activity.
+ 
+Exato! Com essa abordagem todo o código destinado a construção de layout fica isolado, fazendo com que seja possível criar um layout complexo sem afetar o código da Activity.
+Alternativa correta
+Para facilitar a criação de layouts mais complexos.
+ 
+Correto! Ao implementar o layout via arquivo estático conseguimos arrastar as views e atribuir as regras esperadas de maneira intuitiva, como também, ajustar a orientação da tela entre retrato e paisagem, verificar principais propriedades das views e outras opções que estão disponíveis via editor visual.
+Alternativa correta
+Para verificar o resultado do layout em tempo de compilação.
+ 
+Isso mesmo! Com essa abordagem somos capazes de obter um feedback rápido por conta do editor visual.
+Alternativa correta
+Para evitar problemas de compilação no código.
+
+@@08
+O que aprendemos?
+
+Nesta aula, aprendemos a:
+adicionar Views via código Java e via arquivo estático;
+implementar layouts que apresentam listas;
+utilizar AdapterViews em específico o ListView.
