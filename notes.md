@@ -835,3 +835,310 @@ Nesta aula, aprendemos a:
 adicionar Views via código Java e via arquivo estático;
 implementar layouts que apresentam listas;
 utilizar AdapterViews em específico o ListView.
+
+#### 05/09/2023
+
+@03-Entendendo a base de construção de layouts
+
+@@01
+Entendendo a teoria básica de construção de layolayouts
+
+Continuando com o desenvolvimento do nosso layout, o próximo passo será implementar o botão na parte de baixo do layout, que representa a ação de adicionar um novo aluno. Para isso voltaremos ao Android Studio, diretamente no nosso arquivo de layout e podemos escolher uma View de acordo com as possibilidades da paleta — temos um elemento, uma View que é o famoso button, que poderíamos estar usando.
+Porém, a princípio ele não terá o mesmo aspecto visual que vimos no exemplo de implementação, então, ao invés de usarmos esse button, fazermos um estilo específico para alcançar esse aspecto visual, a própria equipe do Android Developers nos disponibiliza uma View específica para este tipo de comportamento, conhecido como Floating Action Button, em tradução, botão de ação flutuante, que usaremos.
+
+Para isso, podemos vasculhar as possibilidades nas paletas, mas como vimos podemos estar filtrando também. Agora, existem alguns detalhes bem importantes a serem considerados quando utilizamos esse tipo de View. Nas outras Views não havia esse ícone à direita, e se tirarmos esse filtro, o Text View e o button acabam não tendo esse iconezinho à direita.
+
+O Recycler View, que não veremos durante o curso, acaba tendo, mas os outros não, porque o Android Framework tem as Views disponíveis para nós sem termos que fazer nenhum tipo de download, está tudo integrado no SDK, porém existem outras Views, conforme a evolução do Android Framework vai acontecendo, que são adicionadas de maneira extra, sendo uma adição ao programa.
+
+Ou seja, elas são dependências externas, são dependências independentes do Android Framework, que precisamos baixar para o nosso projeto, portanto, todas as Views que tiverem esse ícone à direita indicam que ela precisa ser baixada, adicionada como uma dependência do projeto para que seja acessível.
+
+Então tanto o Recycler View como o button que vimos serão Views a mais do nosso Android Framework do Android SDK, que não estão disponíveis e precisam ser baixados para serem utilizados. Para o download das Views não precisamos fazer nenhum tipo de instrução ou script, e podemos clicar diretamente nesse ícone, que vai aparecer essa mensagem falando que essa operação exige que se tenha a biblioteca, que será adicionada com Android Support Design. Significa que o Float Action Button faz parte dessa biblioteca.
+
+Ele nos pergunta se queremos adicionar agora, então clicamos em OK, e então ele vai fazer uma task do Gradle para pegar aquela dependência que vimos, adicioná-la em nosso projeto e fazer a sincronização, então ele irá baixar e fazer a sincronização, que seria o processo de pegar essa biblioteca que ele adicionará ao projeto e dar acesso a ela. Então, veja que agora o button está acessível em nosso projeto.
+
+Se virmos o Recycler View, muito provavelmente foi adicionado também, porque a biblioteca que foi adicionada para o FloatingActionButton também permite acesso a ele. Se quisermos ver sobre a dependência que foi acionada, podemos vir a parte Gradle Scripts na aba Project, e nesse arquivo build.gradle, bem na parte de baixo, temos em dependecies a seguinte linha:
+
+implementation 'com.android.support:design:28.0.0'COPIAR CÓDIGO
+tem muitas configurações do gradle que não serão mostradas nesse curso.
+
+Usaremos a versão 28, que é a versão do Android que estamos usando aqui, e é mais recente, o Android 9, e é dessa maneira que ele acaba adicionando essas dependências externas. Agora que entendemos essa parte de dependências externas, e que existem Views dependentes do nosso projeto, podemos usar o Floating Action Button, que filtramos e adicionamos da maneira como estamos acostumados: segurando, arrastando e soltando.
+
+O que vai acontecer é que ele vai pedir para incluirmos resources para essa View, porque ela exige, no momento da adição via editor visual, que tenha pelo menos uma visualização. Vamos pegar essa opção do Project e colocar qualquer tipo de ícone só para nós adicionarmos, para representar o ícone do launcher.
+
+Trata-se de um botão, ou ícone que fica naquela listinha de aplicativos acessíveis para nós. O nosso Float Action Button foi adicionado na parte superior. Há um detalhe: precisamos colocar esse componente na parte de baixo do nosso layout, e se virmos um pouquinho mais sobre o comportamento que ele tem que ter, ele deveria ficar sobreposto à nossa lista porque se ela tiver muitos elementos, ele ainda terá que ficar na parte de cima, como é comum em diversos aplicativos atualmente.
+
+Vamos usar o nosso editor visual e ver se ele nos permite fazer esse tipo de ação. Clicaremos, seguraremos e vamos tentar arrastar, e não temos nem aquele campo verde para modificarmos. Se soltarmos, ele volta para o mesmo lugar, e da mesma maneira, se soltarmos mais para baixo, onde aparece verde, e não fica na nossa lista, inclusive perdemos acesso a ele.
+
+Podemos até ter acesso a ele usando outra técnica no editor visual, esse Component Tree, que faz a listagem da hierarquia de Views que temos em nosso layout, a que passamos a ter acesso de novo. Poderíamos movê-lo para cima de novo, para onde ela estava, mas mesmo assim não temos o comportamento esperado.
+
+Quando estamos montando layouts no Android, às vezes pode até parecer bem simples trabalhar com editor visual, porém se não tivermos nenhuma base sobre como funciona essa parte de hierarquia, as regras essenciais para montar um layout, não fica tão fácil, conforme o que precisamos implementar, justamente esse objetivo final. Portanto, veremos uma pequena introdução de como é a base para montar layouts no Android, para entendermos o problema que está acontecendo e como podemos resolvê-lo.
+
+Sobre a construção de layout no Android, como vimos, a base de criação é por meio de Views. Toda vez que tivermos que colocar algum componente novo, colocaremos uma View nova. Com base no que temos no layout, um elemento raiz dentro do arquivo de layout, que pode ser apenas um único elemento raiz e foi justamente por isso que só tivemos o Linear Layout. Isso significa que quando tivermos o arquivo de layout, em níveis de hierarquia, não teremos capacidade de colocar dois Text Views, por exemplo.
+
+Essa é uma regra muito importante quando considerarmos a implementação de layouts: existe apenas um único elemento raiz. Além disso, existem tipos de Views diferentes, pois quando consideramos apenas o tipo de View qualquer, que é o genérico, não conseguimos adicionar mais Views nela. Isso é, um Text View não tem a capacidade de incluir outro dentro dele, para isso temos outras Views, específicas para receber Views filhas, conhecidos também como View Groups.
+
+Então, quando queremos fazer um layout com mais de uma View, precisaremos desse tipo de View Group, que seria no caso o Linear Layout, e também o List View, que recebe várias Views. É por isso que colocamos o Linear Layout no começo, que é o que o Android acaba nos sugerindo, e conseguimos incluir mais de um Text View, uma List View, e assim por diante.
+
+Assim, o View Group será uma View cuja responsabilidade é simplesmente ser um contêiner para manter outras Views, então se pegarmos, por exemplo, a criação de um layout mais complexo, teremos o nosso layout, que será, a princípio, uma View Group, e aí vamos ter as Views dentro dela.
+
+Então, por exemplo, a View aqui embaixo poderia ser o nosso Text View, ou List View, ou podemos fazer a adição de outras Views. Inclusive temos a capacidade de, dentro de um View Group, que seria um Linear Layout, colocar outros View Groups, como vimos com a nossa List View.
+
+E dentro desse View Group fomos colocando outras Views, e é dessa maneira que vamos aumentando o que chamamos de níveis de hierarquia do nosso projeto. Se formos montar um layout, começaremos pela View raiz, que geralmente é uma View Group, para que se possa colocar outras Views, e dentro dela podemos ter outras View Groups ou Views.
+
+Mas o que isso tem a ver com o problema que temos?
+
+Dado que a parte básica é uma View Group que irá manter as outras Views, vocês concordam que o possível problema está relacionado a este Linear Layout? E é realmente isso mesmo, pois ele é uma View Group com uma regra específica para compor as suas Views, que é indicar que cada uma de suas Views vai pegar um espaço específico e exclusivo.
+
+Ou seja, essa View, nosso FloatingActionButton está pegando todo o espaço dessa parte horizontal por ter o objetivo de organizar as Views por meio de linhas, então temos essa linha toda para o nosso Floating Action Button, para a nossa List View. Então, as Views dentro do Linear Layout, e elas não vão conseguir sobrepor uma a outra, e é por isso que temos esse tipo de comportamento.
+
+É claro, a List View tem outras formas de trabalhar com isso, ele sempre vai ser linear e pegar uma linha, mas ele consegue mudar a orientação, porque, por padrão, quando foi adicionado, ele usa a orientação vertical, uma em cima da outra, e podemos colocar uma orientação horizontal, que seria uma do lado da outra. Por exemplo, se clicarmos no Linear Layout e mudarmos sua orientação para horizontal.
+
+Não é o comportamento esperado, mas veja que é o Linear Layout, o View Group que acaba organizando, e como as suas Views internas acabam funcionando. Portanto, precisamos usar outro View Group que tenha o comportamento desejado: uma View se sobrepondo à outra e dando mais flexibilidade ao posicionamento de cada uma delas.
+
+Temos outra View Group, também bastante utilizada, hoje em dia bem próximo do legado, isto é, Views que não são utilizadas por conta da evolução do Android, que vai trazendo novas Views para resolver problemas mais complexos. Mas ela é uma das bases, assim como o Linear Layout, também conhecido como Relative Layout. Então, como poderemos usar a nova View Group, que terá essa flexibilidade ?
+
+Podemos usar a técnica de conversão de View, por meio do botão direito no Component Tree, em cima do nosso Linear Layout. E então vamos à opção Convert view... O Constraint Layout não será usado por ser uma biblioteca, um View Group mais recente para podermos resolver esses problemas, mas existe um curso dedicado a isso, e portanto aprenderemos mais a parte base.
+
+Ele nos dá uma listagem de possibilidades, dentre as quais escolheremos o nosso Relative Layout, um dos princípios de View Groups do Android, ao qual temos acesso. Haverá projetos com que você acabará lidando com isso. Clicaremos em cima dele e daremos Apply, e ele já muda um pouquinho o aspecto visual que tínhamos antes.
+
+Ao invés de um espaço dedicado à View, ele colocou uma View sobre outra, e o Floating Action Button acabou ficando em cima da nossa List View. Se por exemplo clicarmos e arrastarmos o botão, clicando primeiro no ComponentTree para selecionar e acessá-lo, conseguiremos movê-lo. E aparentemente ele faz uma modificação da maneira esperada automaticamente. Então, com o Relative Layout colocaremos a nossa View de maneira relativa ao layout, mesmo, e teremos mais liberdade na nossa View.
+
+Perceba que quando precisamos modificar o nosso layout e ter mais flexibilidade, às vezes o que modificará os comportamentos esperados é o View Group que estamos utilizando, que está sendo o contêiner das outras Views e está organizando cada uma delas. Nesse caso, para termos mais flexibilidade e adicionar, por exemplo, um elemento mais para baixo, ou para cima, será outro View Group que teremos que utilizar em vez do nosso Linear Layout.
+
+Dessa maneira, conseguimos colocar o nosso FloatingActionButton nessa parte de baixo. Ele deu uma bugada porque tirou o ícone, o que resolveremos logo mais. Queria mostrar essa base de construção de layout, que é entender os níveis de hierarquia, o que é uma View Group, que para colocar Views dentro de outras, precisa necessariamente ser uma View Group, e teremos a capacidade de organizar o nosso layout de acordo com a View Group que contém as nossas Views.
+
+Vamos executar o projeto para ver como é que ficou, e depois faremos uma modificação para deixar conforme a nossa proposta. Abriremos o emulador, vamos aguardar o Android Studio finalizar, para vermos se o layout nos atende de maneira esperada. Claro, vimos que houve modificações, vimos alguns valores de medidas, não se preocupe com isso, logo mais daremos atenção a isso e usaremos medidas que fazem sentido para o nosso projeto.
+
+O importante agora é tentar atingir o nosso objetivo, e conseguimos de fato colocar um botão que, ao ser clicado, já mostra até o efeito. Agora sim, aplicamos um aspecto visual similar ao que temos de proposta. A seguir adicionaremos o que for necessário e finalizar essa implementação.
+
+@@02
+Implementando FAB novo aluno
+
+Caso você precise do projeto com todas as alterações realizadas na aula passada, você pode baixá-lo neste link.
+Implemente o FloatingActionButton como botão para adicionar novos alunos. Para isso, vá na paleta de View, filtre por FloatingActionButton.
+
+Clique no botão que representa o download da dependência. Assim que finalizar o processo do Gradle, adicione o FAB (FloatingActionButton) no layout.
+
+Caso não aparecer o botão de download, provavelmente significa que o projeto já está configurado para utilizar os componenentes do Material Design
+Em seguida converta o LinearLayout para RelativeLayout utilizando o menu Convert View... clicando com o botão direito em cima do LinearLayout a partir da aba Component Tree.
+
+Por fim, mova o FAB para a tela de preview, verifique se é apresentado na tela do preview e se o posicionamento no Component Tree está correto:
+
+Não é necessário alinhar o FAB conforme o vídeo, pois dependendo da versão do Android Studio, não apresenta um resultado esperado.
+
+Os detalhes de alinhamento serão apresentados a seguir.
+
+https://github.com/alura-cursos/fundamentos-android-parte-1/archive/aula-2.zip
+
+Ao finalizar a atividade o FAB deve estar presente no layout, não é necessário executar o App, apenas certifique-se que o componente está abaixo do RelativeLayout e no mesmo nível da ListView.
+Não se preocupe com as medidas e posicionamento do FAB, a seguir veremos mais detalhes sobre como podemos configurar de maneira precisa o nosso layout.
+
+@@03
+Utilizando código fonte do layout
+
+Temos uma base de construção de layouts no Android utilizando o editor visual do Android Studio, quero falar a respeito do que está por trás dessa implementação que fizemos; por mais que utilizemos o editor visual para montar o nosso layout, por debaixo dos panos ele gera um código fonte que nos define esse layout. Ou seja, tudo que fizemos gerou um código fonte por detrás, portanto faz todo sentido termos conhecimento sobre esse código fonte e entender passo a passo o que ele significa e como podemos utilizá-lo para montar os nossos layouts, uma abordagem muito comum no dia-a-dia do desenvolvedor Android.
+Então, se formos criar outro layout, seja mais complexo ou mais simples, ter o conhecimento desse código fonte faz todo o sentido, porque às vezes ao mexermos via editor visual não teremos o resultado esperado, e via código fonte mexemos diretamente, ficando do jeito que queremos. De que forma podemos acessar esse código fonte?
+
+No arquivo de layout, que é o nosso activity_main.xml, por padrão vimos que estávamos tendo acesso ao nosso editor visual, acessível por meio da aba "Design". E para acessarmos o nosso código fonte, temos ao lado a aba Text, que representa justamente o código-fonte.
+
+Então, por meio desses botões existe a possibilidade de alternarmos entre o editor visual e o de código fonte de layout. Quando acessamos o código fonte, há uma estrutura XML, porque, claro, temos um arquivo XML gerado de maneira estática, então, o que precisamos entender é justamente o que chamamos de DSL, domain specific language, ou então a linguagem de domínio específico para montar esses layouts, a DSL que a equipe do Android nos disponibiliza para criarmos os nossos layouts.
+
+Quando abrimos o código fonte, até apareceu aquela janelinha similar ao editor visual, que se refere ao Preview, que é o que montaremos no código fonte e o que aparecerá para nós, então é por isso que é benéfico fazermos os layouts via arquivo estático, já que por mais que façamos via código fonte, temos a capacidade de termos um feedback bem rápido no momento em que estamos criando o nosso código, diferentemente de quando fazíamos via Java, quando tínhamos que fazer o código e depois rodar o aplicativo para termos um resultado visual.
+
+Por mais que seja via código fonte, conseguimos ver o resultado diretamente. Também tem algumas técnicas que podem ser utilizadas, como é o caso do zoom, também podemos mudar o emulador, algumas regalias similares ao editor visual, porém via código fonte apenas. Agora, vamos entender os detalhes de código fonte: uma das primeiras observações a serem consideradas é justamente a base que vimos no vídeo anterior, que está relacionado à hierarquia. O arquivo XML segue muito a ideia da hierarquia, indicado pelo nível de indentação.
+
+Teremos a View Group, que é o nosso elemento raiz, o Relative Layout, e estará logo no começo do arquivo sem nenhuma indentação. E as suas filhas, as Views filhas, acabaram ficando com um único nível de indentação, como é o caso do nosso FloatingActionButton, e como é o caso da nossa ListView. Quando mexemos com código fonte, já temos uma visão bem melhor do que vemos em nosso editor visual, por mais que tenha bastante informação, podemos entender cada uma delas.
+
+É um detalhe bacana de se observar no momento em que se mexe no arquivo XML via código fonte, que é identificar o elemento raiz, e seus filhos, que no caso são o View Group e Relative Layout. Passando os detalhes em relação a esses atributos que estamos vendo, porque há bastante informação que precisamos entender. Vamos entender esses primeiros atributos, esse xmlns:android que mostra o Android indicando essa URL. Esse atributo refere-se ao namespace do Android que dará acesso aos atributos de cada um dos elementos.
+
+Assim, esse Android está sendo acessível para esses outros atributos, destinados às nossas Views em relação ao Android Framework, então, no geral, as Views que acessaremos, para serem acessadas os seus atributos precisaremos deste namespace. Como é o caso desse layout width, height, e assim por diante. Por isso ele é importante e precisa ser declarado na primeira View, o nosso elemento raiz.
+
+No geral, não é preciso decorar todo esse intervalo, porque o Android Studio, ao identificar que não há esse namespace decorado, já sugere para nós o importe. Selecionaremos e apagaremos, e ele não encontra esse namespace android. Daremos "Alt + Enter", e ele fala para criar ou então colocar a setinha para o lado, e ele faz um tracejado, em que daremos "Alt + Enter", porque ele já entende aquele namespace com aquela URL.
+
+Em cima, por padrão, ele já cria outro namespace, esse app, refere-se justamente a atributos específicos de algum componente, então de repente existe algum método de algum componente que não é propriamente do Android Framework, mas precisamos acessá-lo, então a partir deste app temos capacidade, dado que não usamos um atributo que não é do Android Framework em específico, não precisamos utilizar esse namespace. Ou seja, no momento em que precisarmos iremos colocar app, dois pontos, que ele vai importar para nós.
+
+Dado que não vamos precisar, podemos apagar sem nenhum problema. Pense da seguinte maneira: se existe um atributo inutilizado, meio cinza, você pode apagar sem nenhum problema. No momento em que ele for necessário, o programa sugere o import. Conseguimos entender essa parte básica, então vamos para os atributos do Android Framework em relação às nossas Views.
+
+Como vimos, todos os componentes estão tendo a declaração desse layout width e height, e que todos eles estão tendo mesmo. Significa justamente as medidas que serão colocadas em relação à largura (width) e altura (height), e essa medida é obrigatória, portanto, se não declararmos, dá um erro de compilação. Ele sempre vai exigir a largura e a altura, então toda vez que colocávamos um componente via editor visual, ele já colocava isso para nós.
+
+Agora, vamos às questões das medidas, pois temos essa medida chamada de match_parent, que irá preencher o nosso atributo de acordo com o seu pai. Por exemplo, quando lidamos com ele, é para atingir o pai. E quem seria o pai do Relative Layout? A própria tela geral do nosso componente, que representa que o pai do Relative Layout, ou de qualquer View que seja o elemento raiz.
+
+Assim, ele vai preencher toda a nossa tela, e é por isso que está como height e width e o match_parent, para preencher toda a tela, e por padrão vai ser sempre assim quando colocamos o elemento raiz, para que tenhamos acesso a toda ela. É basicamente isso que precisamos entender. Agora vamos para o próximo componente, já que não teve tantas especificações no nosso Relative Layout.
+
+No FloatingActionButton temos bem mais elementos, e vamos entendê-los. O primeiro é o próprio ID, que já vimos como funciona, e a declaração é um pouquinho diferente, porque só colocávamos o valor, que seria por exemplo esse FloatingActionButton. E agora estamos com @+id(esse arroba mais ID).
+
+Significa que toda vez que quisermos incrementar um novo ID para algum componente que temos no Android, via arquivo estático, precisaremos colocar esse padrão que estamos vendo. Se quiséssemos modificar o nome do ID do nosso FloatingActionButton, só precisaríamos modificar exatamente esse valor, para qualquer novo ID que queiramos criar.
+
+Esse é um detalhe bem importante. Nesse caso podemos até modificar com base nesse padrão que vimos embaixo, que é o Activity Main, e depois o nome. Para mantermos o padrão, será Activity, tem o autocomplete, basta mudarmos para o que usaremos para esse Floating Action Button. Deixaremos de maneira resumida, o famoso fab, que geralmente está relacionado ao button, e indicamos mais ou menos a ação que ele terá, que será um novo aluno.
+
+Essa é uma das técnicas que podemos usar para colocar os nossos IDs para Floating Action Buttons, então essa parte de IDs é dessa maneira que funciona. Como vimos, temos o layout_width e também o nosso layout_height. Comentamos que esse match_parent preenche conforme o seu pai, e se observarmos o nosso Floating Action Button, por mais que sua largura seja para preencher de acordo com o seu pai, ele não está preenchendo toda essa largura, isso porque o button, em específico, é uma View bem personalizada do que conhecemos sobre o Material Design, que é um padrão de design implementado pelo Google. Mas o que isso tem a ver?
+
+O button é bloqueado para modificar tanto a sua altura como a largura, pois dessa maneira ele irá manter uma regrinha do Material Design em relação a esse componente, que é sempre manter uma medida específica. Então se quisermos modificar a altura de um FloatingActionButton, teremos um atributo específico, portanto, manter um match_parent não faz tanto sentido.
+
+Inclusive, nessa parte de altura temos um valor diferente, que vamos entender o que significa, e ver qual faz mais sentido, se é manter esse match_parent ou esse segundo valor, conhecido como wrap_content. Vamos agora entender o que ele significa: diferentemente do match_parent, ele indica que irá crescer conforme o seu conteúdo.
+
+Isso quer dizer que, no geral, traduzindo de maneira direta, ele crescerá só o suficiente, de acordo com o seu conteúdo do componente, então, por exemplo, quando colocamos um Text View, lembra que ele preenchia a largura, porém a sua altura era sempre o mínimo necessário. Aquela altura era um wrap_content, porque ela só aumentava de acordo com seu conteúdo interno. Então se colocássemos um conteúdo interno muito grande, e também, é claro, se fosse outro componente, que permitisse alterar o seu tamanho, ele ia crescer de acordo com aquele conteúdo, então manter wrap_content tanto na largura como na altura em um FloatingActionButton faz muito sentido.
+
+Então deixaremos aqui também como um wrap_content, e veremos que não vai aumentar, porque como comentado, esse componente em específico é bloqueado para alteração via layout_width ou layout_height, ele terá outro atributo para modificar. Se quisermos usar outra altura e outra largura, usaremos o atributo que é conhecido como fabSize.
+
+E aqui, sim, utilizamos aquele app, porque ele é um atributo específico do FloatingActionButton que não é acessível via Android Framework. Agora temos outros atributos que faz sentido entendermos, relacionado a esse AlignParentEnd e AlignParentBottom, que indicam os valores de relação ao RelativeLayout, ou seja, esse alinhamento que estamos fazendo é um atributo que vai atingir diretamente o nosso View Group Relative Layout.
+
+Então quando colocamos AlignParentEnd, dizemos que é para ele alinhar de acordo com o seu pai na parte final, que seria essa parte à direita. Da mesma maneira esse Bottom diz que é para alinhar com o pai na parte de baixo. É por meio desses atributos de alinhamento que temos a capacidade de modificar os componentes de acordo com o Relative Layout, e foi por isso que conseguimos colocar o nosso FloatingActionButton na parte de baixo.
+
+Se colocássemos por exemplo um AlignParentTop, seria na parte de cima, e aí sim teríamos esse comportamento de mover para cima. Mas dado que temos na parte de baixo, deixamos um AlignParentBottom, como estava antes. Assim, acabamos alinhando os componentes via Relative Layout; é por meio desse alinhamento de acordo com o pai.
+
+Existem outros alinhamentos relacionados a outras Views, então, por exemplo, se colocássemos um alinhamento, poderíamos colocar um End, e indicar de acordo com outra View. Não vamos explorar muito sobre o Relative Layout, dado que existe outra View, como comentado anteriormente, o ConstraintLayout acaba tendo mais benefício nessa construção, mas entendamos que a parte básica de um Relative Layout é que as Views são posicionadas de acordo com a relação que ela tem entre as próprias Views, ou então de acordo com seu pai, como foi o caso, por padrão, que foi colocado via editor visual.
+
+Então, colocamos o alinhamento com o pai na parte final, a parte da direita, e na parte de baixo. É dessa maneira que conseguimos alinhar.
+
+@@04
+Aplicando medidas nas views
+
+Temos outro atributo, que representa a margem, esse espaço invisível que temos em nossas Views. Esse 26dp foi adicionado para modificar o posicionamento, a distância de margem. Mas o que significa esse dp? É uma unidade de medida no Android, no caso, com ela podemos aumentar ou diminuir a distância entre as views, podemos também ajustar o tamanho, para isso acabamos utilizando essa unidade.
+Mas por quê utilizamos este dp e não outros valores?
+
+Vamos tentar entender como funciona essa ideia. Tudo que acabamos modificando em nossos componentes, eles acabam crescendo como se fossem pixels. Caso você tenha trabalhado com front end ou qualquer outro tipo de framework ou ferramenta que envolva design, sabe-se que a base para construir layouts ou elementos visuais é por meio de pixels.
+
+Então, por que não utilizamos pixels? Vamos trocar para pixels, e já teremos uma certa mudança. Com isso, por mais que sejam 26, acabamos modificando um pouquinho esse posicionamento, e houve um destaque no próprio XML indicando que evitemos o uso de px, e sugerindo o uso de dp.
+
+Qual seria a diferença entre eles ? Sabe que, ao trabalharmos com Android, há diversos aparelhos que precisam ser atendidos, aparelho de telas pequenas, grandes, e assim por diante. Para fazermos com que o nosso aplicativo tenha um aspecto similar em todos os aparelhos, independente do tamanho da sua tela, o pessoal do Android acaba utilizando um conceito chamado de Densidade por Pixel.
+
+Em vez de usarmos pixels por pixels, utilizamos essa ideia de densidade por pixels, que seria basicamente, de maneira teórica bem básica, mesmo, a área física de pixels que existe em um positivo. Então, em uma tela teremos uma área que vai ter uma quantidade física de pixels, e ela é medida por meio dessa densidade, também conhecida como de dpi.
+
+Então quando você ouvir falar sobre dpi, significa a densidade de pixels dentro de uma tela de um dispositivo. E para conseguirmos fazer com que os aspectos sejam proporcionais para todas as telas, acabamos utilizando o que seria a quantidade de densidade de pixels, independente da tela. Por exemplo, quando utilizamos 26dp, independentemente da tela ser de 4, 5 polegadas, ele irá manter o aspecto visual similar para elas.
+
+Por mais que os tamanhos, visualmente falando, sejam um pouquinho diferentes, eles manterão uma certa proporção. E conseguiremos fazer isso criando outro emulador, em que vamos rodar o nosso aplicativo, e ver essa diferença tanto no px, que é o pixel, como também no nosso dp.
+
+Vamos ver primeiro essa parte do dp, depois mudamos para pixels, e veremos a diferença dessa parte da proporção. Para isso vamos executar o nosso aplicativo, e criar um novo dispositivo. Pegaremos um dispositivo menor, de 4 polegadas, que seria esse Nexus S. Usaremos novamente o nosso Oreo e não modificaremos nada.
+
+Podemos também usar o pai, o que preferirmos. No caso usaremos o Oreo por causa do S, se fosse aquele emulador que estávamos usando antes, ele ia ter o Pie, então usaremos o Oreo só para podermos ser mais rápido e não termos que fazer o download. Mas se fossemos usar o pixel, teríamos o nosso Android 9, já com o download.
+
+O Android Studio conseguiu executar nosso aplicativo no nosso Nexus S, e realmente é o celular com a tela menor. Porém, quando mantemos o nosso dp, ele mantém uma proporção nas telas, então por mais que o tamanho seja um pouquinho diferente, dada a quantidade de polegadas da tela, a proporção é a mesma.
+
+Agora vamos utilizar os nossos pixels diretamente, e ver o que acontece. Teremos os pxs, e executaremos o nosso aplicativo novamente, no Nexus S, e vamos executá-lo também. Às vezes trava, porque manter dois emuladores é complicado, então quando você estiver fazendo esse teste, se não conseguir, tente abrir um por um, ou então rode no seu celular.
+
+Ele rodou, agora vamos rodar no nosso Pixel, e vamos ver como é que fica. E dessa maneira, agora vamos ver como é que fica o posicionamento para o nosso Pixel. Vamos ver, usando a medida em pixels, que vai ter um comportamento diferente de acordo com o seu dispositivo. Então não vai ser uma proporção similar, observe que fica muito mais colado.
+
+Então é realmente uma medida que não é recomendada, porque estaremos lidando com a densidade de pixels em nossos dispositivos. É por isso que o recomendado é usar o dp, uma medida com uma densidade de pixels independente, e o próprio Android ficará responsável em calcular a quantidade de pixels para que se mantenha um aspecto similar para a diversidade de dispositivos existentes no mercado.
+
+Inclusive, essa é a base para que consigamos dar suporte para multitelas. Usaremos essa medida, e é por isso que toda vez que usarmos o px o Android Studio irá reclamar e sugerir o dp, para medidas fixas, pois elas não vão crescer de acordo com o pai , e irão sempre manter o valor
+
+Mais um detalhe: agora que entendemos a parte de dp, temos algumas regrinhas de FloatingActionButton, porque ele é um elemento daquele padrão, o Material Design, e existem algumas regrinhas falando a respeito de como podemos usar os seus valores. Uma delas se relaciona à margem, considerando que queremos deixá-la embaixo, por padrão ela acaba usando uma regra de 16dp.
+
+Se quisermos colocar uma margem para esse FloatingActionButton, o recomendado é usar esse valor para mantê-lo nessa parte de baixo. Isso faz parte de Design, não é específico do Android, é do Material Design. E já que estamos usando sempre o mesmo valor para ambas as margens, dado que só estamos pegando a margem inferior e do final, e que essas margens de cima não afetam tanto, podemos usar só um atributo margin mesmo.
+
+Assim, ele vai pegar de todas as faces da nossa View, então se ela estivesse alinhada com outra View em cima, aí também teria uma margem de 16dp em cima, assim como também no início, que seria a esquerda. Dado que não há tem nenhum tipo de relação, ele acaba pegando na direita e no final, que é onde preferimos mesmo, e isso somente com um único atributo.
+
+No momento em que colocamos o Floating Action Button incluímos outro detalhe, o atributo chamado clickable, para obtermos o efeito de clique que faz umas ondinhas. Quando o colocamos, ele pede que adicionemos o atributo focusable. Por mais que façamos as interações por meio de cliques e toques, também temos capacidade de fazer interações via teclado. Se dermos um TAB, o foco vai mudando de acordo com os elementos.
+
+Isso é bacana para quando usamos ferramentas de acessibilidade, ou quando só temos um teclado para utilizar. Com o focusable no nosso FloatingActionButton, conseguiremos chegar nele por meio do teclado, e é por isso que ele pede para adicioná-lo também, com "Alt + Enter". Vamos executar para vermos a diferença e testarmos com o TAB.
+
+Entendemos os atributos, vamos para a parte da List View, que não terá muita novidade, temos o layout_width e o layout_height com aquelas medidas que vimos, o match_parent, e faz todo sentido, para eles preencherem todo o espaço do Relative Layout, dado que este é o pai dele. Sendo que o pai é sempre quem possui hierarquia superior direta.
+
+Então, voltando, o match_parent acaba crescendo de acordo com que esperamos; sempre considere o seu uso. Se fossemos colocar dentro do List View os 200dp, o FloatingActionButton manteria sua relação com o pai, o RelativeLayout. Manteremos o match_parent para podermos estender com o espaço disponível na nossa tela.
+
+O alinhamento ficou no início, no topo, e não faz sentido manter porque estamos mantendo o match_parent, seja na altura quanto na largura. Inclusive, esse é um dos detalhes bacanas quando utilizamos o nosso XML, ou seja, nosso código fonte. Temos a capacidade de pegar tudo o que foi gerado via editor visual, e avaliar se faz sentido manter ou não.
+
+Toda vez que você for criar um layout, considere o uso do XML. Por mais que o editor visual acabe sendo até mais fácil para o primeiro contato, conhecer sobre o XML é muito importante. Agora que temos essa base do nosso código fonte, exploraremos um pouquinho mais sobre o código fonte nas próximas implementações, para podermos ter mais familiaridade com ele.
+
+A seguir finalizaremos a implementação do nosso layout, com base no que vimos do nosso XML.
+
+@@05
+Ajustando o XML do layout
+
+Modifique o código fonte do arquivo de layout activity_main.xml, removendo o código que não é necessário e alterando valores não esperados. Por fim, execute o App e veja se os aspectos visuais esperados estejam funcionando como esperado.
+Novas abas no layout do AS 4.1
+Com o AS 4.1 temos novas abas pra acessar o código fonte do layout:
+
+Code: acessa o código diretamente
+Split: divide a tela entre código fonte e preview
+Ambas as abas permitem realizar a mesma edição, a diferença é que o Split apresenta os resultados visuais ao modificar o código. Fique à vontade em experimentar as duas possibilidades.
+
+Com os ajustes o App deve apresentar o seguinte aspecto visual:
+
+
+activity_main.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/activity_main_fab_novo_aluno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <ListView
+        android:id="@+id/activity_main_lista_de_alunos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>COPIAR CÓDIGO
+Dentre os ajustes, temos mais impacto no FAB que agora usa margem de 16dp e mantém os atributos focusable e clickable.
+
+Ao utilizar o AndroidX, o FAB mantém o seguinte nome:
+
+<com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/activity_main_fab_novo_aluno"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentBottom="true"
+    android:layout_margin="16dp"
+    android:clickable="true"
+    android:focusable="true" />
+
+@@06
+Sobre layouts via código XML
+
+Vimos que é muito comum editar layout no Android usando uma DSL (Domain Specific Language) no formato XML. Porém, diferentemente do editor visual, precisamos conhecer alguns detalhes para manter um aspecto visual esperado.
+Com base nos detalhes vistos, marque as alternativas corretas:
+
+Aplicamos nas views indentação cada vez que uma ViewGroup tem uma filha.
+ 
+Isso mesmo! Para manter uma organização no código em relação a hierarquia, a indentação é muito bem vinda.
+Alternativa correta
+A boa prática de medidas fixas é utilizar a unidade de medida px.
+ 
+Alternativa correta
+Todos elementos precisam definir os atributos layout_width e layout_height.
+ 
+Exato! Esse é um dos requisitos mínimos quando declaramos um componente via XML.
+Alternativa correta
+Utilizamos o wrap_content para esticar o elemento de acordo com o pai.
+
+@@07
+Para saber mais - Especificação do Material Design
+
+Durante a aula vimos que o componente FloatingActionButton faz parte do Material Design que sugere algumas regras de implementação, como por exemplo, uma quantidade de margem de 16dp para a parte inferior... Para mais detalhes sobre a especificação, confira a página destinada à implementação do FloatingActionButton. (Ambas as referências são em Inglês)
+
+https://material.io/design/
+
+https://material.io/design/components/buttons-floating-action-button.html#
+
+@@08
+Para saber mais - Outras unidades de medida
+
+Aprendemos que o Android framework nos disponibiliza algumas medidas para definir tamanhos fixos de seus elementos, como é o caso de pixel (px) e o pixel independente da densidade (dp). Além dessas opções também temos outras.
+Dentre as demais medidas, uma que é importante ter conhecimento é a pixel independente da escala (sp) que tem um comportamento similar ao dp, porém, é destinada ao conteúdo via texto, como é o caso do tamanho de texto de um TextView.
+
+Além dela, temos outras possibilidades que podem ser conferidas diretamente na documentação do Android Developers na seção mais recursos no tópico de dimensões. (em Inglês)
+
+No geral, utilizamos o dp e o sp, portanto, você não precisa se preocupar tanto com as demais unidades.
+
+https://developer.android.com/guide/topics/resources/more-resources#Dimension
+
+@@09
+O que aprendemos?
+
+Nesta aula, aprendemos a:
+Adicionar um FloatingActionButton;
+Implementar o layout via código fonte em XML;
+Atributos comuns na implementação de views;
+Medidas comuns para suporte de telas distintas.
