@@ -1142,3 +1142,482 @@ Adicionar um FloatingActionButton;
 Implementar o layout via código fonte em XML;
 Atributos comuns na implementação de views;
 Medidas comuns para suporte de telas distintas.
+
+#### 06/09/2023
+
+@04-Trabalhando com arquivo fonte do layout
+
+@@01
+Adicionando ícones no projeto
+
+Para finalizar o nosso layout precisamos adicionar o iconezinho no FloatingActionButton, que representa uma cruzinha com a ideia de ação de adição. Para isso, uma abordagem que poderíamos considerar é a seguinte: teríamos uma equipe de designers que ficaria responsável em mandar essas imagens para colocarmos em nosso projeto. Porém, existem situações nas quais não vamos ter essa capacidade, e teremos que colocar nós mesmos esses ícones. Para isso, o Android Studio acaba nos ajudando.
+Vamos colocar primeiro via Android Studio, dessa maneira veremos os arquivos gerados para nós, e também entenderemos como funcionaria caso os designers dessem os ícones para nós. Iremos à nossa linha de projeto, entramos na nossa pastinha de "res", e depois na parte de "drawable", onde colocamos imagens no projeto de maneira estática.
+
+Tentaremos adicionar algo com nosso "Alt + Insert". Das opções que temos, se filtramos por "image", temos a opção chamada de Image Asset, justamente para adicionar assets, arquivos estáticos que representam imagens em nosso projeto. Então vamos dar um "Enter", e aparece outra janela, que nos dá a capacidade de colocar ícones no projeto. Uma das primeiras informações que podemos notar, e também alterar, é o tipo de ícone, o Icon Type.
+
+A princípio ele vai tentar adicionar o ícone que representará o nosso ícone de Launcher, criado por padrão quando criamos o nosso projeto. Não temos interesse em modificar o nosso ícone de Launcher, queremos colocar o ícone nos nossos componentes visuais, como é o caso do nosso FloatingActionButton.
+
+Para isso precisamos modificar o tipo de ícone, e adicionar as outras opções que temos. As primeiras são de Launcher, na terceira opção temos essa ActionBar and TabIcons, que utilizaremos pois ela já faz um ícone capaz de utilizar nesses elementos. Clicaremos nela, e o visual até muda um pouquinho, com outras informações em relação ao ícone de Launcher, dentre elas o nome, o tipo de asset, o clip art, que representa o próprio ícone que usaremos, entre outras informações. Vamos manter essa informação de Asset Type, que é a clip art, e temos que colocar um nome de acordo com a ação que o nosso ícone terá, no caso, uma adição.
+
+Então podemos manter o padrão de "ic", que representa o ícone, "action" que representa ação, e agora só modificamos o nome. Qual seria essa ação que iria executar? Seria a criação de um novo aluno, então podemos colocar "novo aluno" para representar esse novo ícone. Precisaremos adicionar aquele iconezinho que representa uma cruz. Ou seja, temos que ter acesso a uma galeria de possibilidades de ícones. Para isso clicaremos nessa opção do clip art, esse retângulo com um robozinho do Android, e ele vai abrir uma galeria de ícones disponíveis para nós.
+
+E é a partir dessa galeria que teremos a capacidade de modificar o ícone de acordo com a nossa preferência. Então, há muitos ícones, se fosse para ficarmos buscando ia ser até um pouquinho demorado. Portanto a recomendação é que se vasculhe as opções disponíveis à esquerda, com um filtro de categorias de ícones, ou se você tiver mais ou menos a ideia do que o ícone representa, em inglês, você pode usar o filtro.
+
+A ideia daquele ícone é de adição, então se filtrarmos por "add", que seria "adicionar" em inglês, ele já começa a nos dar opções, e mostrar essas três porque colocamos na sessão de Action, então a recomendação no momento de utilizar um filtro é colocar na opção All, que representa todas as categorias disponíveis.
+
+Mais um detalhe importante, é indicado que esses ícones estão disponíveis a partir da nossa licença do Apache, na versão 2.0. Significa que eles estarão licenciados, deixando acessível para nós de maneira gratuita. Ou seja, podemos usar os ícones que são disponibilizados para nós de maneira gratuita, seja na parte de publicação, desenvolvimento, estudos, e assim por diante.
+
+Se usássemos outros ícones de outras fontes, poderíamos ter problemas legais, de direitos autorais. Por isso é uma abordagem bacana de considerar, o uso desse tipo de abordagem via Image Asset do próprio Android Studio, então daremos um "OK", e ele adicionou o nosso ícone.
+
+De detalhes bacanas que podemos considerar, há essas outras opções, como o Trim que, a princípio, ele coloca como "No", justamente para alinhar de acordo com o espaço total. Então se colocarmos "Yes", ele alinha todo o espaço sem deixar nenhum espaço a mais, como se fosse uma margem. A recomendação é de deixarmos o "No", pois geralmente acabamos tendo um aspecto visual esperado.
+
+O Padding também ficará como o padrão, porque se o modificarmos ele irá mudar o espaço entre os nossos ícones, não faz muito sentido nem fica visualmente ok. O que podemos modificar para manter um aspecto visual similar ao que esperamos é a parte desse frame que representa o tema.
+
+Por padrão, ele vai tentar sempre manter esse Holo Dark, que é justamente o tema mais escuro, próximo de um cinza, do preto, e temos outras opções, o Holo Light, próximo ao branco. Estes dois vão sempre manter aspecto visual escuro ou claro de acordo com o dispositivo, a versão do Android.
+
+Caso não quiséssemos estes temas, ou desejássemos uma cor específica por solicitação do cliente, temos esse Custom que seria a personalizada. O Custom color seria a cor personalizada. Clicaremos nele e acabamos tendo acesso a uma paleta de cores. Aqui no curso vamos manter esse Holo Dark, uma cor padrão próxima de dispositivos Android, próxima ao branco. Mas fique à vontade para manter a cor que preferir.
+
+Agora vamos entender a informação final, relacionada a esse Preview. Aqui temos cinco opções de ícones. Dentre essas informações tirando os prefixos temos a informação de dpi's. Quer dizer que esses ícones são criados para atender as diferentes categorias de dpi's que os desenvolvedores do Android acabaram definindo para poder dar suporte às diversas telas. Esse xxxhdpi significa que esse dpi seria o maior dentre os dispositivos.
+
+Portanto o mdpi seria realmente para celulares muito pequenos, para o qual usaríamos esse ícone aqui. Assim, toda vez que criarmos um recurso visual, se quisermos mandar para um projeto Android, a recomendação, a boa prática, é que tenhamos essas variações. Então, se uma equipe de design, ou alguém responsável em manter esses ícones nos mandar, teria que ser dessa maneira, com essas variações respeitando as regras de medidas.
+
+É dessa maneira que teríamos que adicionar, e é por isso que é uma das vantagens, também, utilizarmos essa técnica, porque ela já separa tudo bonitinho para nós. Agora daremos um "Next", e aí ele diz o que vai ser criado no nosso projeto, esses outros diretórios que irão representar as variações de dpi.
+
+E também quais serão as medidas, e os nomes dos arquivos são os mesmos. O que muda é realmente o diretório onde estarão alocados, eles ainda continuarão sendo drawables. A diferença é que eles terão um traço e um sufixo indicando sua categoria em relação ao dpi. Quando estamos lidando com o nosso triplo x temos, de tamanho por pixel, de 96, e dp de 24.
+
+Quando pegamos o nosso duplo x tem um px de 32 mantendo o dp de 24, e assim vão sendo modificados com base na variação. Algo que comprova o que foi dito anteriormente é que se mantém sempre o 24dp para manter uma proporção para as diferentes telas, alterando-se apenas o px, porque ele vai ser calculado com base no dpi.
+
+Daremos um "Finish" nisso, e ele coloca no projeto para nós, fazendo alguns updates e mostrando para nós o nosso ícone, na nossa pastinha "drawable". Então agora nossa pasta, por mais que mostre só um ícone, entre aspas, tem 5 ícones disponíveis para poder atender as categorias. Ele deixa entre parênteses justamente por causa da perspectiva que estamos usando no nosso projeto, de Android.
+
+Se quiséssemos ver toda a estrutura do projeto, poderíamos modificar a perspectiva, ou então acessá-la via explorador de arquivos do próprio sistema operacional. Por exemplo, se modificássemos para Project, aí sim teríamos acesso, e veríamos por meio de hierarquia todos aqueles diretórios que foram criados.
+
+É dessa maneira que adicionamos imagens estáticas no projeto Android. Sempre teremos que nos preocupar com esse suporte de diferentes tamanhos de tela.
+
+@@02
+Utilizando o Image Asset
+
+Caso você precise do projeto com todas as alterações realizadas na aula passada, você pode baixá-lo neste link.
+Adicione o ícone indicando a ação de "adicionar um aluno" por meio do Android Studio. Para isso, vá até o diretório res/drawable e use a opção New por meio do atalho Alt + Insert, então filtre a opção Image Asset.
+
+Em seguida, defina a opção Icon Type com o valor Action Bar and Tab Icon para que apareça a opção de Clip Art. Então defina o nome como ic_action_novo_aluno e modifique o Clip Art para manter o ícone de cruz que indica a ação de adicionar.
+
+O ícone pode ser filtrado a partir da palavra "add" selecionando a categoria all.
+Por fim, modifique o tema para o HOLO_DARK que mantém um aspecto de cor branca e clique em Next e depois Finish. Depois confira se os ícones com os tamanhos diferentes, foram adicionados como esperado.
+
+No AS 4.1 ao invés de xxxhdpi, temos o anydpi.
+
+https://github.com/alura-cursos/fundamentos-android-parte-1/archive/aula-3.zip
+
+Após concluir a atividade, a estrutura de arquivos dentro do diretório drawable deve ficar da seguinte maneira:
+
+No AS 4.1, ao invés de xxxhdpi é adicionado o anydpi que representa um vector drawable capaz de se adequar a qualquer dpi:
+
+O ícone de adição deve apresentar o seguinte aspecto visual.
+
+https://developer.android.com/guide/topics/resources/providing-resources#DensityQualifier:~:text=anydpi,-%3A
+
+https://s3.amazonaws.com/caelum-online-public/1051-android-fundamentos/10-icone-acao-novo-aluno.png
+
+@@03
+Inserindo ícone e App Bar
+
+Agora que temos os ícones, vamos voltar para a perspectiva de Android, que é mais enxuta e fácil de se trabalhar, dado que esse projeto tem uma estrutura muito grande, precisamos adicionar aquele ícone. E para isso temos atributos da nossa View que permitem essa adição.
+Vamos voltar ao nosso código fonte com "Ctrl + Shift + F12" para aumentá-lo. Clicaremos para abrir o perfil, e agora usaremos um método chamado de src que quando colocamos teremos a capacidade de colocar exatamente aquelas opções com o FloatingActionButton via editor visual, e ele falava que precisávamos colocar um recurso. Temos acesso aos recursos disponíveis via arquivo estático, que seria por exemplo @drawable para conseguirmos acessar os arquivos do drawable, ou então @mipmap, e assim por diante.
+
+Nesse caso queremos o drawable, porque é onde estão os nossos ícones e ele faz um filtro das possibilidades. Por mais que existam aquelas categorias diferentes, ele sempre vai manter só esse único nome que colocamos no ícone, "ic_action_novo_aluno", porque ele vai pegar aquelas variações no momento em que executar o nosso projeto e identificar o dpi.
+
+Por isso que aqui não precisamos definir dpi. A definição será feita via próprio sistema operacional, então não nos preocupamos com qual será utilizado de acordo com a execução, já que o próprio Android se responsabiliza por isso dado que daremos as possibilidades.
+
+Nossa única responsabilidade é de enviar as possibilidades, porque senão ele só vai usar o que tem disponível. Daremos um "Enter", e agora sim, ele adicionou o ícone para nós. Agora precisamos executar, mas antes disso uma observação: cada vez que colocamos resources ele vai dar uma ajuda aqui na parte esquerda indicando mais ou menos qual o recurso que acabamos colocando.
+
+Se de repente não quisermos executar para ter certeza, podemos vir na esquerda, na linha do código fonte, que ele vai mostrar, ou podemos apertar o "Ctrl + B" que ele vai mostrar as possibilidades. Se dermos "Enter" ele vai direto ao arquivo. Assim, acabamos colocando os ícones. Vamos executar o nosso projeto e ver se tudo está funcionando como o esperado. Conseguimos colocar o nosso ícone.
+
+Então, da parte do nosso layout já conseguimos atender aquela parte do nosso botão, agora só falta colocarmos o App bar. E como é que fazemos isso? Existem diversas maneiras de fazermos isso a gente: via layout, ou usando outra técnica bem comum no Android, por meio de outra Activity, então, ao invés de usarmos essa nossa Activity normal usaremos uma ramificação, outra variação dela, que seria esse App Compat Activity.
+
+Ele já coloca o nosso App bar, como estamos vendo no Preview. A diferença é que ele é uma boa prática no Android, por dar suporte a versões anteriores do Android. Significa que se usarmos um recurso recente no Android, por exemplo, que entrou no Android 5.0, e estamos dando suporte para Android 4.4, ele irá conseguir colocar esse comportamento para ele. No geral, ele será recomendado para ser utilizado.
+
+Então quando criarmos uma Activity, ou estivermos em outro projeto, vai ser muito comum usá-lo, justamente por isso. Inclusive, as classes dessa biblioteca, que é o Android Support, no geral vão ter esse tipo de comportamento, de dar suporte às versões antigas, de acordo com o alcance de versões for colocado para atender no projeto. E é dessa maneira que criamos um projeto que dá suporte a diversas versões do Android, utilizando essas classes que estão relacionadas à biblioteca de suporte.
+
+Agora que colocamos, vamos executar para ver como é que fica. A princípio, quando colocamos o AppCompatActivity, ele vai manter a App bar com o título do nosso projeto, que no caso é "Agenda". Ele não vai personalizar por padrão, ele vai manter esse nome, então teremos que personalizar manualmente com o nome que queremos, que é "Lista de alunos".
+
+Não tem complicações, é só colocar o método Set Title. Então, quando colocamos esse App Compat Activity, ele já dá acesso a este Set Title, e colocamos, por exemplo, lista de alunos. E aí sim, conseguiremos modificar da maneira esperada.
+
+Esse AppCompatActivity estende também de Activity. Ele não é algo diferente de uma Activity. Para termos certeza disso, podemos usar o atalho "Ctrl + H", e ele nos mostra que é um AppCompat que estende de Fragment Activity, que estende de Support Activity, e por aí vai.
+
+Realmente é uma classe especializada em dar acesso a esse App bar, e também aos suportes de features novas de Androids mais recentes para os Androids antigos que damos suporte. É claro, nem sempre é tão simples, mas no geral ele vai conseguir atender as necessidades gerais, é por isso que vamos tentar sempre usar o App Compat Activity.
+
+Começamos com a Activity para vermos que funciona, e no geral a maioria das features estará funcionando, mas se de repente formos dar suporte à algo novo, teremos que usar o AppCompatActivity para poder dar esse suporte, e ter acesso à App bar.
+
+Como comentado, existem outras possibilidades, e essa é a maneira mais fácil que temos, não será sempre a melhor dependendo do que for ser implementado, mas no geral acabamos utilizando ela por ser a mais objetiva e a mais fácil. Conseguimos concluir essa primeira implementação. A seguir veremos os próximos desafios.
+
+@@04
+Adicionando ícone e App bar
+
+Adicione o ícone indicando a ação de adicionar no FAB, para isso utilize o atributo do android:src.
+Faça com que a Activity tenha uma App Bar, para isso altere a extensão de Activity para a AppCompatActivity. Em seguida, modifique o título da App Bar para "Lista de alunos" por meio do método setTitle().
+
+Execute o App e veja se aparece a App Bar com o título e ícone de ação de adição no fab.
+
+Ao executar o App deve aparecer o seguinte aspecto visual:
+
+
+Em código temos o seguinte resultado:
+
+MainActivity.java:
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        setTitle("Lista de alunos");
+        // restante do código
+    }
+}COPIAR CÓDIGO
+activity_main.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/activity_main_fab_novo_aluno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_action_novo_aluno"
+        android:focusable="true" />
+
+    <!-- restante das views -->
+
+</RelativeLayout>COPIAR CÓDIGO
+No AS 4.1, utilizando os componentes do Material Design compatíveis com o AndroidX, o FAB possui algumas regras padrões que só podem ser modificadas por meio do namespace app, como por exemplo, se você quiser mudar a cor do ícone, precisa utilizar a propriedade app:tint.
+
+@@05
+Criando a Activity via Android Studio
+
+Agora que finalizamos a implementação da tela de lista de alunos, podemos seguir com a próxima tela. Se consultarmos a proposta de implementação percebemos que precisamos implementar uma tela que vai representar um formulário de cadastro de alunos, ou seja, o nosso objetivo é criar um fluxo no qual estaremos na lista de alunos, vamos clicar no nosso Floating Action Button e entrar nesse formulário de cadastro. Dentro dele vamos conseguir cadastrar o aluno com base nas informações de nome, telefone e e-mail.
+E teremos um botão para salvar, e dessa maneira vamos clicar nele, salvar o aluno e apresentá-lo na nossa listinha. Então, nosso objetivo final será chegar nesse fluxo, mas para isso teremos que implementar primeiro essa Activity que terá esse layout. Vamos voltar ao Android Studio e começar com essa implementação.
+
+Aprendemos como criamos uma Activity por meio de uma classe fazendo herança da Activity do Android, o registro no Manifest e criando um layout. Vimos que é um processo manual que tende a ser trabalhoso, e por isso temos recursos do programa que acabam automatizando essa tarefa. Como vimos no começo do curso, no momento em que estávamos criando nosso projeto tínhamos uma galeria de Activities.
+
+É por meio daquela opção que teremos capacidade de automatizar essa tarefa, e exploraremos um pouquinho dela. Para isso entramos no nosso pacote "java", "br.com.alura.agenda", que é o nosso código de produção, dentro dele apertamos o atalho "Alt + insert" para adicionarmos algo. Podemos fazer filtros para achar a nossa Activity, apertamos a setinha para a direita e ele mostra as diversas opções que temos. Se formos só pelos nomes é um pouco abstrato porque não sabemos a que tipo de Activities se refere cada um desses nomes.
+
+Portanto, qual opção escolheremos? Será essa primeira, a Gallery, e dessa maneira abrimos novamente aquela galeria de opções de Activities disponíveis, e diferentemente de quando estávamos criando, agora não aparece mais a opção Add Activity, justamente porque agora vamos adicionar uma Activity por meio da galeria.
+
+Teremos que escolher realmente um desses templates, que são exemplos prontos para criarmos as Activities. Temos muitas opções, que mostram quais são consideradas comuns quando queremos criar uma Activity, dentre as quais escolheremos essa Empty Activity, porque ela irá manter um layout bem clean, o que chamamos de layout vazio, que vai permitir com que criemos o nosso layout sem termos que ficar removendo o código fonte.
+
+Um aviso importante: dependendo da versão do Android Studio que é utilizado, pode ser que a galeria seja bem diferente, ou até mesmo similar, portanto, se a versão for muito mais distante dessa que estamos usando, que é 3.2.1, e não aparecer nenhuma dessas Activities durante a galeria, a recomendação é que se implemente uma Activity com a ideia de ser vazia, sem nenhum componente.
+
+Durante o curso, nessa versão 3.6.1, usaremos a Empty Activity. Agora que selecionamos, temos a capacidade de selecionar qualquer uma delas, vamos selecionar a Empty e dar um "Next". Feito isso, temos que preencher as informações das Activities; como sabemos ela vai ter uma classe, um arquivo de layout, e as opções para poder indicar o pacote, se é um Launcher ou não.
+
+Vamos definir o nome da Activity, ele tenta a seguir o mesmo padrão feito para a primeira, ele coloca Main, e depois o número 2 para fazer a boa prática, a recomendação quando criamos Activities é colocar um nome que faça sua definição, por exemplo, queremos uma Activity para uma tela de formulário de cadastro de alunos, então poderíamos colocar o nome próximo de formulário aluno, pois assim, só lendo o nome dela já sabemos o que ela representa para o nosso aplicativo.
+
+Vamos pedir para ele gerar o arquivo de layout, pois como sabemos a boa prática é manter um arquivo de layout, ele coloca o padrão que é o prefixo Activity, colocando formulário aluno, e em seguida, temos a opção deixar como Launcher. Dado que vamos desenvolver essa tela, e quando executarmos queremos essa tela, vamos deixar como Launcher, e dessa maneira, aparece a tela para nós, e não termos que fazer de outra maneira, que ainda não investigamos nem mexemos.
+
+Então a princípio vamos deixar como Launcher, e em seguida ele já sugere a opção de adicionar a App Compat Activity justamente pela ideia de mantermos a compatibilidade entre as versões anteriores do Android que estamos dando suporte, que são as versões mínimas. Em seguida, ele sugere a opção de pacote que deixaremos. Por padrão, quando estamos fazendo a primeira Activity deixamos no pacote raiz para não termos essa parte de organização do código.
+
+Dado que é a segunda Activity que estamos criando, e a ideia é de fazer em um padrão esperado, a ideia de pacotes também é deixar um pacote específico de Activities, uma abordagem inicial seria colocar pacotes destinados à Activity. Uma técnica que costumo usar é adicionar mais um subpacote para ficar acima da Activity, que vai representar a interface do usuário, chamado UI. Dessa maneira todos os pacotes que estiverem dentro de UI irão definir e indicar que serão classes representadas de telas, ou seja, Activity representa uma tela, e por isso ela fica dentro desse pacote.
+
+Se colocássemos qualquer outra entidade que fosse uma tela, que representasse uma interface de usuário, faria todo sentindo mantê-la dentro também, então, por isso eu costumo manter dessa maneira. De código fonte usaremos o Java, e aí é só darmos um "Finish". Assim, o Android Studio começa a fazer um procedimento, a criar uma classe para nós, um arquivo XML que vai representar o nosso layout, e também a registrar no Manifest.
+
+Por isso ele já faz o procedimento, que às vezes não vai ser tão rápido, pode ser que demore um pouquinho, justamente porque ele já está fazendo todo o procedimento que teríamos que fazer manualmente. Já ganhamos tempo não tendo que escrever todo esse código. A recomendação para quando estivermos fazendo esse procedimento é que ele provavelmente vai abrir essa abinha de Build, e assim que terminar, começamos a mexer no código, porque enquanto isso ele está fazendo todo o procedimento e sincronizando tudo para poder compilar da maneira esperada.
+
+Vamos fechar a parte do build, e quando criamos essa Activity, um pacote específico, a classe R não veio importada ou acessível, porque a classe R está no pacote raiz, ou seja, lá naquela nossa primeira Activity, ela nem precisa fazer import, já que ela estava tendo acesso. Então precisamos fazer o importe, e ele até sugere "Alt + Enter", que importa para nós.
+
+Conseguimos criar a nossa Activity, executar o aplicativo e ver o que está acontecendo, porém, aproveitando que estamos fazendo tudo no padrão esperado, vamos aproveitar esse momento para deixar a nossa Activity inicial que criamos no padrão esperado, pois ela ainda está mantendo o nome que não dá significado real para ela, que seria uma lista de alunos. E também está em um pacote que não faz muito sentido para ela, que é o pacote raiz. Então agora faremos todos os passos considerados como técnicas de refatoração.
+
+Faremos a modificação, seja no código da estrutura do projeto, para deixar conforme o esperado, de maneira ideal. O primeiro passo é organizar o pacote, e para isso temos várias técnicas: do Android Studio, o IntelliJ por baixo, manualmente da maneira que preferirmos. Uma das abordagens mais diretas seria segurar e arrastar até o pacote que esperamos, e dessa maneira ele já indica que irá mandar para esse pacote e tentar fazer uma refatoração inteira.
+
+Significa fazer com que todos os pontos do nosso projeto, que utilizem a referência dessa Activity também sejam modificadas. Por exemplo, no nosso arquivo de Manifest, que está usando a nossa Activity, vai tentar fazer a modificação automaticamente. Então vamos usar essa opção com Refactor. Vamos investigar os detalhes, então, o primeiro deles é que ele não mostra mais a perspectiva do pacote raiz, e sim somente esse único pacote UI, em que há apenas classes. Isso não é um problema, podemos adicionar depois, mas esse é o primeiro impacto.
+
+Em seguida, precisamos ver se teve algum problema de importe; a princípio, dado que fizemos a opção de Refactor, ele já tentou fazer o importe, até mesmo da classe R. Outra opção que podemos estar considerando é a remoção dessas classes que não estão sendo usadas, dado que estamos fazendo a refatoração. Para isso utilizamos o atalho "Ctrl + Alt + O", que faz a otimização removendo quatro importes. Se formos ao Manifest veremos que está tudo certo.
+
+Feita essa primeira modificação, a próxima é modificar o nome da Activity, para isso também temos técnicas que fazem essa refatoração, seja modificando direto no Manifest ou no arquivo. Modificaremos no Manifest para vermos que essa opção também funciona para outros pontos que estão referenciando a Activity. A técnica é chamada de Rename, que usamos por meio do "Shift + F6".
+
+E aí ele diz que podemos modificar o nome, pois ele cuidará da parte refatoração; apagamos o Main colocando ListaAlunosActivity, e em todos os pontos que tiverem referência a esta lista, ele vai fazer a modificação. O arquivo de lista de alunos já foi modificado, antes era Main, só que aqueles arquivos estáticos que referenciam os layouts não são modificados, então toda vez que modificarmos o nome de uma Activity, podemos ter um trabalho muito grande nos arquivos estáticos.
+
+Sempre, desde o começo, é bom tentar manter um nome padronizado para evitar retrabalho em arquivos estáticos. Aproveitando, vamos pegar os nomes estáticos. Temos Activity Main, usamos "Shift + F6" para renomear no nosso arquivo XML também. Poderíamos fazer isso lá mesmo, ou aqui no código. Dessa maneira, conseguimos refletir no arquivo de layout, e como podemos ver, em coisas estáticas ele não mexe, então em IDs também vamos ter que mexer. Faremos isso agora diretamente no arquivo de layout, mas poderíamos modificar via código Java.
+
+Com "Ctrl + B" conseguimos modificar, e quando estávamos modificando o nosso Floating Action Button, não usamos o "Shift + F6" porque não tínhamos nenhuma referência, mas mesmo assim, a recomendação é que sempre se utilize o "Shift + F6", porque por mais que às vezes pareça que não está sendo utilizado, às vezes, por debaixo dos panos algo está usando essa referência, e podemos ter algum problema caso façamos manualmente, pois ele tentará modificar em apenas um lugar.
+
+Conseguimos aplicar a refatoração esperada, e temos uma organização da maneira esperada, precisamos executar o projeto para ver se aparece a nossa tela para representar o formulário. E aí depois que conseguirmos executar, iremos começar a implementação do nosso formulário com base na proposta que temos.
+
+Vamos abrir o nosso emulador, o Android Studio conseguiu executar o nosso projeto, porém, ainda aparece a nossa lista de alunos. Isso acontece porque se formos ao nosso Manifest, ambas as Activities estão sendo declaradas como Launcher. Ou seja, a primeira que estiver declarada no Android Manifests vai acabar sendo executada. Se formos ao nosso dispositivo percebemos que na bandeja de aplicativos ele criou dois atalhos para acesso ao nosso projeto.
+
+Se clicarmos em um deles, ele vai abrir uma das Activities, neste caso da lista de alunos, e se abrirmos o outro ele abre a nossa tela que será representada com o formulário. Então os dois atalhos foram criados para poder abrir as Launcher. Temos a capacidade de criar várias delas em nosso projeto, porém a primeira que foi cadastrada, e que o Android irá executar, e conseguimos executar a segunda manualmente via própria bandeja de aplicativos.
+
+Considerando que vamos estar desenvolvendo essa tela, e que queremos que ela apareça, vamos fazer o seguinte: comentar o intent-filter da nossa lista de alunos. E dessa maneira, quando executarmos o nosso projeto, teoricamente é para abrir o nosso formulário, pois estaremos desenvolvendo-o, e assim que o fizermos o tiramos como Launcher e fazemos aquele fluxo clicando no Floating Action Button e entrando no formulário.
+
+Deixaremos assim por enquanto para podermos estar desenvolvendo o nosso projeto. Agora sim, conseguimos colocar uma nova Activity utilizando o Android Studio, e o nosso próximo passo vai ser realmente desenvolver essa telinha. Até já.
+
+@@06
+Nova Activity e refatoração
+
+Crie a Activity para o formulário de aluno. Para isso, utilize o procedimento do Android Studio entrando no pacote raiz (local onde está a MainActivity) e usando a opção New (Alt + Insert). Filtre pela opção "activity" então navegue até a opção Gallery....
+Escolha o template Empty Activity e clique em Next.
+
+É válido ressaltar que dependendo da versão do Android Studio podem surgir outros templates. Caso não tenha o Empty Activity, escolha um template que apresenta um layout vazio.
+Em seguida, preencha os campos solicitados, defina o nome da Activity como FormularioAlunoActivity, marque a opção Launcher Activity e deixe as opções Generate Layout File e Backwards Compatibility (AppCompat) marcadas.
+
+Confira se o nome do arquivo de layout está mantendo o padrão esperado.
+Defina um pacote específico para a Activity, vimos que podemos deixar dentro de activity ou ui.activity, escolha a maneira que preferir, porém, certifique-se que vai ficar em um pacote reservado para Activities. Então clique em Finish.
+
+Após o Gradle finalizar o procedimento de sincronização do projeto. Altere o arquivo de manifesto para que somente a Activity de formulário seja executada durante o launch.
+
+Após realizar todos os ajustes, execute o App e veja se aparece a Activity para o formulário de aluno.
+
+06
+Nova Activity e refatoração
+
+Crie a Activity para o formulário de aluno. Para isso, utilize o procedimento do Android Studio entrando no pacote raiz (local onde está a MainActivity) e usando a opção New (Alt + Insert). Filtre pela opção "activity" então navegue até a opção Gallery....
+Escolha o template Empty Activity e clique em Next.
+
+É válido ressaltar que dependendo da versão do Android Studio podem surgir outros templates. Caso não tenha o Empty Activity, escolha um template que apresenta um layout vazio.
+Em seguida, preencha os campos solicitados, defina o nome da Activity como FormularioAlunoActivity, marque a opção Launcher Activity e deixe as opções Generate Layout File e Backwards Compatibility (AppCompat) marcadas.
+
+Confira se o nome do arquivo de layout está mantendo o padrão esperado.
+Defina um pacote específico para a Activity, vimos que podemos deixar dentro de activity ou ui.activity, escolha a maneira que preferir, porém, certifique-se que vai ficar em um pacote reservado para Activities. Então clique em Finish.
+
+Após o Gradle finalizar o procedimento de sincronização do projeto. Altere o arquivo de manifesto para que somente a Activity de formulário seja executada durante o launch.
+
+Após realizar todos os ajustes, execute o App e veja se aparece a Activity para o formulário de aluno.
+
+@@07
+Refatorando a MainActivity
+
+Refatore o código da MainActivity para que ela tenha mais significado com a tela que representa. Para isso, renomeie o nome da classe para ListaAlunosActivity replicando essa mudança em todos os pontos que faziam referência à "main Activity".
+Para facilitar o processo, utilize a técnica de rename do Android Studio, por meio do atalho Shift + F6.
+Lembre-se que mudanças feitas na classe geralmente não replicam em arquivos estáticos do resources, portanto, mesmo que use o rename, vai ser necessário mudar o nome do arquivo de layout e as referências dos ids. Durante essa mudança, considere o rename para replicar em todos os pontos que fazem uso das referência estáticas.
+
+Por fim, modifique o pacote para que fique no mesmo pacote da FormularioAlunoActivity.java.
+
+Uma técnica boa é clicar e arrastar a classe até o pacote desejado.
+Após aplicar a refatoração, execute o projeto e veja se tudo funciona como antes.
+
+O App deve funcionar da mesma maneira como ficou no exercício anterior, a diferença é que o código deve apresentar o seguinte resultado:
+activity_main.xml -> activity_lista_alunos.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/activity_lista_alunos_fab_novo_aluno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_action_novo_aluno"
+        android:focusable="true" />
+
+    <ListView
+        android:id="@+id/activity_lista_alunos_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>COPIAR CÓDIGO
+MainActivity.java -> ListaAlunosActivity:
+package br.com.alura.agenda.ui.activity;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import br.com.alura.agenda.R;
+
+public class ListaAlunosActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lista_alunos);
+        setTitle("Lista de alunos");
+        List<String> alunos = new ArrayList<>(
+                Arrays.asList("Alex", "Fran", "Jose", "Maria", "Ana"));
+        ListView listaDeAlunos = findViewById(R.id.activity_lista_alunos_listview);
+        listaDeAlunos.setAdapter(new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                alunos));
+    }
+}COPIAR CÓDIGO
+AndroidManifest.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="br.com.alura.agenda">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".ui.activity.ListaAlunosActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".ui.activity.FormularioAlunoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
+
+@@08
+Implementando o layout do formulário
+
+Vamos implementar o layout do nosso formulário. Voltaremos no Android Studio na nossa Activity que representa o formulário, e clicaremos no identificador do arquivo estático do layout, e dessa maneira, apertando o "Ctrl + B" conseguimos entrar diretamente no layout criado para essa Activity. O primeiro passo que faremos será estender o código com "Ctrl + Shift + F12" e abrir o Preview, para termos todo o ambiente preparado para construir o nosso layout via XML, já que já vimos como é que funciona via editor visual.
+Esse layout não foi criado por nós, e sim via Android Studio usando a técnica da galeria de Activities, portanto ele já colocou uma View Root sem termos tomado essa decisão. E dentre as opções existentes dentro do Android Framework, ele utilizou o Constraint Layout. Por padrão, atualmente falando, ele está considerando essa View Root, que no caso é uma View Group também.
+
+Como foi comentado, o Constraint Layout tem um curso explicando sobre ele, portanto nesse curso inicial exploraremos mais os recursos iniciais do Android Framework mesmo, que também são conhecidos como legados, seja o Linear Layout ou então Relative Layout. Vamos converter via XML para Linear Layout, e vamos fazer a implementação em cima dele.
+
+Para fazermos essa conversão, selecionamos todo o código que faz a identificação do Constraint Layout, e escrevemos o nosso Linear Layout. Se colocarmos apenas o "Li" ele tenta fazer um autocomplete das possibilidades, basta dar um "Enter" e ele faz essa conversão para nós.
+
+Então precisamos ver os atributos que foram declarados, o primeiro deles é o namespace, que já vimos, do Android, que vamos manter, o segundo está mantendo o namespace do app, portanto podemos apagar, em seguida ele vem com novo namespace que é o tools. Significa que ele terá o mesmo comportamento que tem o namespace de Android e o namespace app. A diferença é que ele vai colocar todos os componentes visível apenas no Preview, então é realmente uma ferramenta para fazer o desenvolvimento dos nossos layouts via Preview.
+
+Não conseguiremos executar e manter as informações que colocávamos via tools. Como se fosse uma ferramenta apenas para o design, para termos via Preview, porque de repente teremos uma informação estática que não queremos apresentar durante a execução, então o tools será utilizado nesse tipo de situação, inclusive nesse momento para colocar esse context que representa justamente uma situação na qual podemos ter um tema diferente para esse tipo de formulário. Neste caso, ele vai carregar no Preview para nós. Dado que não fazemos uso desse recurso, não vamos utilizá-lo.
+
+Por isso apagaremos o tools. Existem outras situações em que ele vai ser necessário, entre aspas, pela utilidade, para ajudar, mas não nesse momento. No curso de Constraint Layout falamos um pouquinho sobre ele, já dando um pouco de spoiler, mas nesse momento não precisaremos utilizar.
+
+Então deixamos o nosso layout limpo, e podemos conversar com a implementação. Como vimos, o Linear Layout é uma View Group na qual trabalha via linhas, também precisamos definir a orientação, para que essas linhas sejam disponibilizadas para cada uma das Views, seja de maneira vertical ou horizontal.
+
+Nesse caso, com a implementação que queremos fazer, utilizaremos a vertical, por meio desse orientation do Android. Dessa maneira cada View que entrar dentro dele pegará um espaço exclusivo para ela. Agora, precisamos colocar esses componentes que recebem texto, edição de texto. No Android trabalhamos com um componente chamado de Edit Text, que colocaremos.
+
+Começaremos a colocar o nível de hierarquia abaixo do Linear Layout, o Edit Text. Como sabemos, precisamos obrigatoriamente colocar o width e também o height. Como ocuparemos todo o espaço da tela, o máximo que conseguirmos, deixaremos como width com match_parent. A parte da altura pegaremos conforme o necessário, por isso colocaremos wrap_content.
+
+Teremos um esboço de como ficará esse Edit Text, só precisamos colocar mais alguns argumentos, atributos, e aí sim, ele vai colocar conforme o esperado. A primeira boa prática que faz todo sentido mantermos é justamente o ID, pois vamos precisar dele para podermos pegar essa View dentro da Activity.
+
+Colocaremos o ID, por meio daquele padrão que é o arroba mais ID barra. Precisamos representar por meio do que ele será, de acordo com o nosso layout. Como sabemos, o primeiro componente representa o nome do aluno. Por enquanto deixaremos só o nome porque só ele vai ser indicado com o nome, se tivesse outra View com essa ideia de algum tipo de referência ao nome, poderíamos mudar um pouquinho e colocar input nome, algo do gênero.
+
+Definimos o ID, e agora faremos uma estilização para deixar próximo a esse layout, porque, por padrão, o que acontece é que temos um espaçozinho que não existe no layout, ele está bem grudado com essa View, com o nosso parent, o Linear Layout, então precisamos colocar uma margem também, para isso utilizamos o atributo margin, e um valor mínimo bem comum de ser utilizado, 8dp, mas poderíamos usar outro valor.
+
+Agora precisamos inlcuir essa informação via texto justamente para dar uma dica do que representa essa entrada de texto. Para isso temos um atributo do Edit Text, que indica essa ideia de dica, o hint, se você vem do front end, é o que costumamos chamar de placeholder, então colocaremos a dica, que vai ser Nome. Conseguimos fazer esse nosso primeiro Edit Text, agora precisamos colocá-lo mais duas vezes com argumentos diferentes.
+
+Selecionaremos todo o Edit Text, e daremos um "Ctrl + D" duas vezes, que copia toda a linha e cola embaixo automaticamente. Ele deixa tudo alinhado na parte de baixo por usar o Linear Layout, essa também é uma das vantagens de usarmos o Linear Layout, porque ele é bem fácil de fazer Views nas quais cada componente vai permanecer no seu espaço, mandando para frente o próximo componente de acordo com a orientação.
+
+Agora só precisamos modificar os argumentos; como o segundo argumento incluiremos o telefone e e-mail. Conseguimos colocar esses componentes de entrada de texto, os Edit Text. O que precisamos fazer para finalizar essa implementação de layout é colocar esse botãozinho embaixo, que irá representar o comportamento de salvar um aluno. Isso é bem simples, temos outro componente destinado ao botão, então embaixo do último Edit Text colocamos o componente chamado Button.
+
+Ele terá um comportamento similar ao que vimos no nosso layout, a diferença é que temos que colocar tanto width quanto height, para preencher tudo com match_parent e a altura crescer o suficiente, e ele mostra um esboço de como está ficando a nossa implementação com esses dois argumentos. Precisamos de um ID para usarmos esse componente, então será uma Activity. Deixamos bem definido o que ele representa, depois colocamos uma margem, a mesma que aplicamos para os outros.
+
+Se você quiser colocar uma margem tanto na parte do início quando na parte final, fique à vontade, mas dado que usaremos essa margem normal, não tem nenhum tipo de impacto, então manteremos dessa forma. Precisamos colocar esse texto, indicando o seu comportamento, que é salvar. Para isso, temos o atributo text, e escrevemos "Salvar".
+
+A implementação desse layout foi bem simples, usando o XML. Vimos exatamente as mesmas técnicas vistas anteriormente, respeitando a ideia de uma View Root, de um View Group, colocando suas Views filhas e conseguimos implementar o layout. Nesse momento precisamos executar o nosso projeto e ver se ele está funcionando da maneira esperada, e se tudo estiver funcionando conseguimos prosseguir com o próximo passo. Daremos um "Shift + F10" para executar o projeto.
+
+Abriremos o emulador, aguardaremos o Android Studio finalizar a execução, e se tudo der certo daremos continuidade a seguir. Ele apresentou o formulário como esperado, vamos clicar em cima deles, por exemplo no nome, aparece o teclado e conseguimos fazer o preenchimento. Mas ao clicarmos no telefone, esperamos preencher informações com o número, e não texto.
+
+Seria bem interessante se houvesse uma opção que já colocasse o arroba para facilitar. Em outras palavras, quando trabalhamos com Edit Text, existe outro atributo que nos ajuda e irá representar o tipo de entrada. Faz todo sentido trabalharmos em cima dele, então vamos modificar esse atributo para finalizar o nosso layout. Voltaremos ao nosso Edit Text e colocamos o atributo chamado inputType, com que teremos a capacidade de colocar um tipo específico de entrada para aquele Edit Text.
+
+Inclusive, podemos até colocar um tipo específico ao incluirmos o nome, pois se apagarmos todo o nome, ele já começa com inputType, com o tipo de teclado, de entrada com letra minúscula, sendo que para nomes normalmente temos letra maiúscula no começo. Portanto, o que iremos colocar será a opção chamada de textCapWords, para que para cada palavra do Edit Text ele vai deixar em letra maiúscula.
+
+Para o telefone deixaremos phone mesmo, e para e-mails vamos colocar a entrada textEmailAdress, e agora sim, teremos um tipo de teclado específico para o campo que está sendo preenchido. Vamos dar um "Shift + F10" para executarmos o nosso projeto. Vamos testar os teclados, para ver se fazem uma ajuda ao nosso usuário, à experiência que ele terá em relação a como ele vai usar nosso aplicativo.
+
+Ficou bem mais bonito, né?
+
+Consegue colocar um e-mail bem mais fácil do que ter que ficar modificando o teclado para poder achar o arroba, temos um comportamento esperado. Precisaremos nos preocupar com o comportamento de salvar, porque se clicarmos no botão, ele faz a ação via efeito visual, só que a lógica por trás, o que nossa Activity precisa fazer ela ainda não faz. É justamente nisso que iremos focar logo a seguir.
+
+@@09
+Layout do formulário
+
+Implemente o layout do formulário de aluno. Faça com que ele tenha o mesmo aspecto visual de acordo com o a proposta de implementação de layout:
+
+
+Para essa implementação considere as seguintes views:
+
+LinearLayout como elemento raiz aplicando orientação vertical;
+EditText para as views de entrada de texto;
+Button para o botão salvar.
+Lembre-se de aplicar as dicas em cada um dos EditText utilizando o atributo android:hint, e também, o tipo de entrada de acordo com o campo, como por exemplo, para o campo nome todas as palavras devem apresentar letra maiúscula no começo.
+
+Ao finalizar a implementação do layout, execute o App e veja se apresenta um aspecto visual similar ao da proposta.
+
+Ao executar o App deve apresentar o seguinte aspecto visual para o layout:
+
+
+Perceba que para cada campo temos um teclado específico. O código fonte do layout ficou da seguinte maneira:
+
+activity_formulario_aluno.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText android:id="@+id/activity_formulario_aluno_nome"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        android:hint="Nome"
+        android:inputType="textCapWords"
+        android:layout_height="wrap_content" />
+
+    <EditText android:id="@+id/activity_formulario_aluno_telefone"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        android:hint="Telefone"
+        android:inputType="phone"
+        android:layout_height="wrap_content" />
+
+    <EditText android:id="@+id/activity_formulario_aluno_email"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
+        android:layout_height="wrap_content" />
+
+    <Button android:id="@+id/activity_formulario_aluno_botao_salvar"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        android:text="Salvar"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+
+@@10
+Uso do AppCompatActivity
+
+Nesta aula, modificamos a herança de Activity para AppCompatActivity em nossas Activities. Por quais motivos fizemos essa mudança?
+
+Para adicionar a App Bar no layout da Activity.
+ 
+Isso mesmo! O AppCompatActivity aplica uma App Bar por padrão apenas realizando a herança.
+Alternativa correta
+Para dar suporte a versões antigas do Android.
+ 
+Exato! A ideia do AppCompat é permitir o uso de features do Android de versões recentes em versões antigas, como é o caso das versões mínimas que o projeto suporta.
+Alternativa correta
+Para possibilitar o uso de ViewGroups diferentes no layout.
+ 
+Alternativa correta
+Para possibilitar o uso de arquivos de layout na view da Activity.
+
+@@11
+O que aprendemos?
+
+Nesta aula, aprendemos a:
+Adicionar ícones no projeto;
+Implementar layout via XML;
+Implementar layouts com o LinearLayout;
+Implementar layout de formulário;
+Refatorar Activities em relação ao pacote e nomes;
+Implementar App Bar e uso do AppCompatActivity.
