@@ -1621,3 +1621,698 @@ Implementar layouts com o LinearLayout;
 Implementar layout de formulário;
 Refatorar Activities em relação ao pacote e nomes;
 Implementar App Bar e uso do AppCompatActivity.
+
+#### 07/09/2023
+
+@01-Finalizando o fluxo do App
+
+@@01
+Criando o aluno
+
+Finalizada a implementação do nosso formulário, o próximo passo é fazer a ação que vai permitir salvar um aluno com base nas informações que preenchermos nos nossos EditText's. Porém, para isso, primeiro precisamos identificar essa ação, ou evento, que estamos fazendo no clique do botão, então precisamos fazer com que, no momento em que clicamos nesse botão aconteça esse comportamento de pegar as informações dos nossos EditText's e transformar em um aluno.
+Como é que fazemos para captar essa parte lógica? O primeiro passo é justamente entrar na nossa Activity, porque como vimos, toda essa regra de negócio que envolve a lógica é dentro da Activity que vamos fazer. A parte de layout é mais para deixar comportamentos estáticos, então, o primeiro passo que temos que fazer é pegar a referência do nosso botão. Já aprendemos que fazemos isso por meio do nosso findViewById, então pegamos o nosso botão. Se colocarmos "botão", ele já faz um filtro. Voltamos para um objeto, que a princípio vai ser do tipo View, e que chamaremos de botaoSalvar.
+
+Iremos lidar com o button, como vimos anteriormente. Agora precisamos fazer aquela ação, aquela identificação do clique; para isso, dentro do Android, em específico nas Views, temos algo chamado Listener, um ouvinte de eventos, ou seja, teremos um, por exemplo, para verificar se aconteceu um clique, ou se de repente mudou algum estado da View.
+
+Toda vez que tiver algum tipo de ação ou execução de algum evento, sempre haverá um Listener disponível para nós. Então, no botão, para configurarmos esses Listeners, vamos pegar a referência dele e vamos chamar o método setOnClickListener. Nesse momento, quando queremos setar o Listener, temos que implementar uma interface.
+
+Nesse caso, a interface que ele quer que implementemos é essa onClickListener. Poderíamos criar uma classe para fazer essa implementação, porém é muito comum fazermos uma implantação via classe anônima, fazendo a própria instância dessa interface, dado que é uma interface com apenas um único método. Faremos isso por meio do View.OnClickListener. Significa que é uma interface de todos os componentes que herdam de View, ou seja, todos os componentes do Android, que terão capacidade de implementar um comportamento a mais para eventos como esse, como no caso deste clique.
+
+Então, dentro desse método onClick, que implementamos via classe anônima, podemos incluir todos os comportamentos que desejamos que sejam executados quando realizarmos o clique. Para testarmos, vamos colocar um Toast bem simples, com que estamos acostumados, por meio desse template que temos ele já preenche para nós. Agora, tem um detalhe: nesse campo de context foi usada a referência FormularioAlunoActivity.this, porque estamos fazendo uma implementação de dentro da classe anônima.
+
+Ou seja, o this dentro desse contexto do onClick representa uma classe anônima, que não definimos o nome, e que implementa esta interface. É uma classe diferente, e por isso precisa pegar a referência da Activity. Então só vamos colocar um texto falando que clicamos no botão "Salvar", e depois vamos deixar essas informações padrão, um tempo pequeno, LENGTH_SHORT, e depois mostramos o show. Vamos executar o nosso projeto e ver o que acontece apenas com essa modificação do Listener.
+
+Clicando no botão, aparece a mensagem que colocamos, então realmente conseguimos fazer a implementação do Listener, e quando clicamos dentro dele, precisamos pegar as informações do EditText e transformar em um aluno. Sendo assim, vamos pegar a referência deles, com findViewById, vai ser um pouquinho demorado porque temos que pegar três Views.
+
+Pegaremos primeiro o nome e deixaremos bem mais claro para nós o que ele representa, e vamos indicar que ele é um EditText. Para facilitar, antes de fazermos as próximas implementações, nas próximas buscas, faremos um "Ctrl + D" e mudaremos só os nomes. Então, de Nome campo deixaremos Telefone, pegando também a referência de telefone, é importante. Não esqueçam de mudar ambas as referências, porque se não teremos algum código duplicado.
+
+E a parte do e-mail pegaremos o Email. Agora que temos acesso aos nossos EditText's, no momento em que estivermos no onClick, precisamos pegar as informações dele, para isso temos os métodos que disponibilizam esse comportamento, então se quisermos pegar o nome, usaremos o getText, que vai nos devolver o Editable, uma classe que terá o comportamento de digitar dos nossos textos. E para podermos pegar a string de verdade, que é o que precisamos, teremos o toString.
+
+Com isso teremos exatamente o nosso nome, e da mesma maneira conseguimos fazer isso para os próximos campos, então usaremos "Ctrl + D" de novo, e faremos o mesmo esquema com telefone e e-mail. Conseguimos fazer as informações necessárias da forma como estávamos querendo. Mas já que estamos em uma classe anônima, todos os componentes que estão fora e são variáveis locais, precisamos deixar como final.
+
+Se fosse um atributo de classe, não teríamos nenhum problema. Agora que temos essas três informações que representam o aluno, o nosso próximo passo é justamente criar um aluno utilizando técnicas de orientação a objeto. Para representar uma entidade dentro do nosso aplicativo ou projeto, criamos um modelo, então agora criaremos um modelo que representará esse aluno para nós. Inclusive, podemos usar o Android Studio para fazer essa técnica.
+
+Podemos, por exemplo, indicar que queremos fazer uma instância de uma classe que não temos por enquanto, e vai ter um nome, telefone, e um e-mail. Então, queremos indicar que queremos criar essa classe para o Android, então, no momento em que não há compilação, que ele não sabe identificar esse tipo de palavra chave que estamos colocando, colocamos o "Alt + Enter", e ele irá criar a classe para nós, pedindo a definição do pacote que queremos.
+
+Dado que é o nosso modelo, podemos colocar no pacote raiz model. Daremos um "OK", e ele já cria com as informações que precisamos via construtor. Podemos até usar alguns recursos bacanas do Android Studio, que seria apertar o "Alt + Enter" e usar a opção Bind Constructor Parameters to Fields, ou seja, ele irá pegar esses parâmetros que recebemos via construtor e criar os campos para nós, e para acessarmos estes campos colocamos os nossos Getters por meio do "Alt + Insert" para ele gerar alguns templates que temos.
+
+Agora que estamos criando esse aluno, o que faremos, só para termos certeza se tudo está funcionando da maneira esperada, é pegar essa referência que criamos e fazer a impressão dessa informação via Toast, mesmo, para vermos se essas informações aparecem como esperado. Via Toast, pegaremos o nosso aluno e faremos a impressão junto com o nosso texto.
+
+Dessa maneira imprimimos os três atributos que colocamos para esse aluno, e esse texto está bem grandinho, mas não precisamos nos preocupar pois estamos usando apenas para teste dessa nossa lógica. Vamos ver se ele cria o aluno para nós. Voltaremos à telinha do nosso emulador, e vamos aguardar o Android finalizar a execução.
+
+Caso tentemos salvar o projeto sem nada, vão aparecer as informações vazias, então vamos colocar só o nome, por exemplo Alex. Ele cria um aluno para nós, com o nome Alex. Se colocarmos um telefone qualquer, ele mostra o Alex, traz o telefone, se colocarmos o nosso e-mail, não precisa usar só o teclado virtual, podemos usar o teclado do computador, e agora sim, ele já mostra todas as informações do nosso aluno.
+
+Nesse momento, conseguimos aprender como colocar a ação de clique do nosso botão, como fazemos para pegar as informações do EditText, e como criamos o nosso aluno. O próximo passo vai ser colocar uma técnica com que disponibilizaremos esse aluno para a nossa Activity de lista de alunos.
+
+@@02
+Criando aluno no formulário
+
+Caso você precise do projeto com todas as alterações realizadas na aula passada, você pode baixá-lo neste link.
+Crie o aluno ao preencher os campos do formulário e tocar no botão Salvar.
+
+Para isso, aplique um listener no botão Salvar a partir do método setOnClickListener() e implemente a interface View.OnClickListener() utilizando a técnica de classe anônima.
+
+Dentro do método onClick() do listener, implemente o código para pegar o conteúdo de cada um dos EditTexts e atribuir variáveis do tipo String.
+
+Lembre-se de fazer a busca das views fora do escopo do listener, para que não fique buscando as views cada vez que a ação de clique acontecer. É válido ressaltar que variáveis locais declaradas fora do escopo da classe anônima, precisam ser final.
+Dentro do escopo do onClick(), com as variáveis de nome, telefone e email, crie uma classe modelo para representar um aluno que receba ambas variáveis via construtor e atribua para atributos de classe.
+
+Por fim, após criar um objeto do tipo Aluno, adicione um Toast para que apresente as informações do aluno quando a ação de clique ocorrer de acordo com os dados dos EditTexts. Rode o App e faça o teste, veja se apresenta as informações como esperado.
+
+https://github.com/alura-cursos/fundamentos-android-parte-1/archive/aula-4.zip
+
+Ao rodar o projeto com as alterações proposta pelo exercício, temos o seguinte resultado:
+
+
+Veja que agora o formulário cria o aluno com todas as informações que foram preenchidas. O código para essa implementação ficou da seguinte maneira:
+
+Aluno.java:
+package br.com.alura.agenda.model;
+
+public class Aluno {
+    private final String nome;
+    private final String telefone;
+    private final String email;
+
+    public Aluno(String nome, String telefone, String email) {
+        this.nome = nome;
+        this.telefone = telefone;
+        this.email = email;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+}COPIAR CÓDIGO
+FormularioAlunoActivity.java:
+package br.com.alura.agenda.ui.activity;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import br.com.alura.agenda.R;
+import br.com.alura.agenda.model.Aluno;
+
+public class FormularioAlunoActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_formulario_aluno);
+        final EditText campoNome = findViewById(R.id.activity_formulario_aluno_nome);
+        final EditText campoTelefone = findViewById(R.id.activity_formulario_aluno_telefone);
+        final EditText campoEmail = findViewById(R.id.activity_formulario_aluno_email);
+
+        Button botaoSalvar = findViewById(R.id.activity_formulario_aluno_botao_salvar);
+        botaoSalvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String nome = campoNome.getText().toString();
+                String telefone = campoTelefone.getText().toString();
+                String email = campoEmail.getText().toString();
+
+                Aluno alunoCriado = new Aluno(nome, telefone, email);
+                Toast.makeText(FormularioAlunoActivity.this,
+                        alunoCriado.getNome() + " - "
+                                + alunoCriado.getTelefone() + " - "
+                                + alunoCriado.getEmail(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
+
+@@03
+Salvando alunos
+
+Conseguimos criar o aluno a partir do nosso formulário, porém precisamos disponibilizá-lo para a nossa lista de alunos. Uma das técnicas comuns em aplicações Android é o seguinte: fazemos com que as informações que queremos para ambas as Activities, para qualquer tipo de Activity do projeto, que sejam salvas dentro de uma entidade responsável em manter essas informações salvas. Dessa maneira conseguimos propagar essa informação para qualquer tipo de entidade do Android.
+Essa técnica, essa entidade que criaremos também é bem conhecida em aplicações Java e em aplicações Android, a partir daquele Design Pattern, que é o famoso DAO, que também é um acrônimo para Data Access Object, ou então Objeto de Acesso a Dados, então criaremos um DAO responsável por salvar alunos a partir do nosso formulário e disponibilizaremos todos os alunos que forem salvos para a nossa lista de alunos Activity.
+
+Vamos começar com a implementação desse DAO usando técnicas do Android Studio para nos orientarmos. Já que precisamos criar uma nova identidade e classe, a princípio, logo depois que setamos a nossa View e o nosso formulário aluno Activity, vamos colocar a intenção de criarmos esse aluno DAO.
+
+Então, utilizando essa técnica Android Studio dentro dessa nova keyword que ele não sabe lidar, usaremos o "Alt + Enter" e Create Class. Deixaremos no pacote a partir do pacote raiz, .dao, com que deixaremos bem claro que ele representa um DAO no nosso aplicativo. Criamos a classe, agora usaremos outras técnicas do Android Studio para que ele consiga colocar os comportamentos esperados a partir da situação esperada.
+
+Voltaremos ao nosso formulário aluno Activity, primeiro pegaremos essa referência para um objeto que chamaremos de DAO, mesmo, e logo depois que criamos o aluno, apagaremos esse Toast que não usaremos mais, e indicaremos a partir desse DAO, então primeiro escrevemos "D" para ele pegar a referência, daremos um "Enter". Dessa maneira, ele coloca um final para nós.
+
+A partir dessa referência chamaremos um método salva, que ainda não temos, em que indicaremos para o Android Studio que mandaremos o nosso aluno criado, porque dessa maneira ele já nos ajuda a criar um método que terá esse comportamento, já com esse aluno enviado via parâmetro, dado que estamos mandando via argumento. Então, apertando "Alt + Enter" em cima do método salva, que não temos, ele sugere a criação do mesmo.
+
+E assim que ele cria ele já faz essa assinatura com void, dado que não devolve nada, mandando como parâmetro um aluno, e ele sugere o nome de aluno criado. Dado que será um aluno genérico, qualquer tipo de entidade pode estar sendo salvo, não precisa ser um aluno específico, vamos deixar só o aluno mesmo. E ele já conseguiu colocar esse comportamento vazio para nós.
+
+O que precisamos fazer é definir o comportamento que permita com que esse dado esteja salvo de uma maneira persistente e seja acessível por qualquer entidade. E como é que podemos fazer esse tipo de implementação? Dadas as possibilidades atuais, tem 1001 formas de fazê-lo, como salvar via banco de dados integrado, em que criaríamos uma estrutura de tabela comum no mercado, porém, dado que lidamos com um primeiro curso, em um primeiro momento com Android, usaremos uma solução mais simples que, se de repente você não quiser implementar via integração com banco de dados, você pode utilizar.
+
+É a partir de uma referência estática, ou seja, criaremos uma lista estática em que salvaremos esses dados, que ficarão disponíveis para todas as entidades enquanto nosso aplicativo estiver funcionando. Dessa maneira conseguimos pegar essas informações a partir de qualquer Activity, desde que nós não destruamos o nosso aplicativo, que seria fechar.
+
+Então vamos criar essa entidade estática, que seria um private final, pois não mudaremos a referência. Criaremos uma instância de um ArrayList, e temos a nossa listinha de alunos pronta. Faremos os imports, pois temos a nossa listinha, e assim que usarmos esse método salvar, ele vai salvar nessa nossa listinha estática.
+
+Assim, teremos acesso a esses dados dentro do nosso aplicativo, então qualquer entidade vai conseguir acessá-los. Voltaremos à nossa lista de alunos Activity, e usar o nosso DAO. Para isso pegaremos sua instância logo após o setContentView. E ao invés daquela lista estática com valores constantes, que iremos remover, indicaremos que queremos pegar os alunos da nossa referência DAO.
+
+Dessa maneira, sabemos que temos alguns problemas de orientação a objetos, que seria a quebra de encapsulamento, e é por isso que já definimos como private. Isto é, em vez de pegarmos a nossa listinha estática diretamente, porque também tem outros problemas, como por exemplo modificar essa listinha por fora, que não é o esperado, vamos chamar um método que vai devolver essa lista para nós de outra maneira.
+
+Ele vai ser chamado de todos, pois irá devolver todos os alunos. Indicaremos que vamos criar esse método com "Alt + Enter", Create Method. Ele sugere o int porque naquela sobrecarga do nosso ArrayAdapter, ele tem a possibilidade de receber um int, por exemplo, que seria a primeira opção. Apenas indicaremos que será uma lista de alunos a ser devolvida.
+
+Nesse retorno, ao invés de devolver os alunos propriamente ditos, porque também ainda vamos disponibilizar a referência estática na qual qualquer um vai conseguir modificar, adicionar, remover conteúdo, e isso irá se refletir, devolveremos uma cópia dele, então vai ser uma nova instância enviando como referência essa nossa lista estática. Então teremos uma cópia dessa lista estática, e quem for modificar por fora não vai modificar internamente no nosso DAO.
+
+Faremos uma simulação de um DAO que acaba mantendo esses dados persistentes, claro, isso enquanto a aplicação estiver viva. Podemos testar nossa aplicação, mas ele só vai conseguir salvar, e não vai aparecer a lista, portanto, antes mesmo de testarmos, temos que entrar no nosso formulário e criar uma solução para abrir a nossa lista de alunos assim que salvarmos. Para isso temos comportamentos do próprio Android Framework, que é, a partir de qualquer Activity, termos a possibilidade de inicializar outra por meio do método startActivity, um método que espera alguns argumentos.
+
+Como podemos ver, nas suas sobrecargas, temos um intent como argumento padrão que precisamos mandar. Este intent vai ser a classe que permitirá que indiquemos onde estamos e para onde vamos, então, estávamos na nossa Activity de formulário. Iremos indicar isso, e falar que queremos ir para a nossa lista de alunos Activity, e vamos conseguir fazer isso a partir desse intent.
+
+Para isso faremos uma instância de intent, e como argumento mandaremos a primeira referência, o this, por meio do formulário aluno Activity, dado que estamos fazendo o comportamento dentro de uma classe anônima. E como segundo argumento mandaremos a referência, a nossa lista alunos Activity.
+
+Como vimos, quando criamos a instância de intent, ele não nos obrigou a mandar as nossas referências, isso porque ele também pode mandar uma intent vazia, só que desta maneira ele não vai saber que precisa inicializar, por exemplo, a nossa lista de alunos, e para conseguirmos definir isso de maneira explícita, acabamos fazendo dessa maneira, que é indicar onde estamos e para onde vamos, justamente para a nossa lista alunos Activity.
+
+Então, assim, acabamos inicializando uma Activity a partir de outra. Agora, podemos testar o nosso aplicativo e ver como ele está funcionando. Vamos executar o Android Studio e ver se agora ele faz todo aquele comportamento, de no momento em que ele salvar o aluno, ele mandar para o DAO, que por sua vez pega essas informações e envia para a nossa lista. Preencheremos as informações do Alex, um número de telefone qualquer, e um e-mail só para podermos testar.
+
+Clicaremos em "Salvar", e agora é para ele abrir a nossa lista de alunos. A informação que ele mandou foi a instância do nosso aluno, pois antes trabalhávamos com strings, e agora estamos trabalhando com referências do tipo aluno, ou seja, ele deve pegar o toString dessa referência. E para poder apresentar a informação de nomes dos alunos, precisamos entrar no nosso modelo, que é o aluno, e modificar o toString.
+
+A partir de agora, não usamos mais os Getters, portanto podemos apagá-los por ora. Agora precisamos sobrescrever o toString. Se escrevermos isso ele já faz o autocomplete e um template para nós. Lembre que ele está tentando usar aquela notação do NonNull, e não vai conseguir porque não temos o Android X no projeto. Voltamos e faremos o import, que ele coloca do Android Support.
+
+Precisamos indicar que, ao invés do toString normal, da classe super, vamos usar a nossa referência de nome, o atributo nome. Agora podemos executar novamente e fazer o teste conforme o esperado e ver o que acontece. Para testarmos, vamos colocar o Alex, telefone 123, alex@gmail.com. Agora, sim, ele apresenta o Alex; voltaremos ao formulário, dado que não temos um comportamento no nosso FloatingActionButton, ele volta, porque ele sempre vai empilhando as nossas Activities.
+
+E agora criaremos um aluno, por exemplo, a Fran, e vamos ver se ele coloca ali na lista conforme estamos adicionando. Ele colocou, então esse comportamento de adicionar as informações e recuperá-las está funcionando da maneira esperada, porém o fluxo normal do nosso aplicativo não está funcionando como esperado, que seria entrar primeiro na nossa lista de alunos, e depois que clicarmos no FloatingActionButton, ele volta para a nossa telinha de formulário, preenche o aluno, e aí sim temos essa informação.
+
+Então agora que aprendemos a salvar as informações e recuperá-las, o próximo passo é corrigir o fluxo da nossa aplicação para um fluxo que faça sentido.
+
+@@04
+Apresentando aluno na lista
+
+Faça com que o aluno criado pelo formulário seja apresentado na lista de alunos da ListaAlunosActivity.
+Para isso, crie um DAO que vai ficar responsável em armazenar alunos que serão criados pelo formulário.
+
+Dentro do DAO implemente o método salva() que recebe um aluno. Com o método declarado, implemente a solução de persistência via memória, criando um atributo privado estático do tipo List<Aluno>.
+
+Em seguida, faça a inicialização do mesmo e, dentro do salva(), chame o método add() da lista enviando o aluno recebido via parâmetro.
+
+Com o método salva() disponível, crie uma instância do AlunoDAO antes do listener, então, no momento que criar o aluno, chame o método salva() do DAO enviando o aluno criado.
+
+Apague o Toast de teste que foi inserido no exercício anterior.
+Na ListaAlunosActivity, crie a instância de AlunoDAO, então, crie o método todos() que devolve uma cópia da referência lista estática. Modifique o terceiro argumento do construtor do ArrayAdapter para que receba o método todos() do DAO.
+
+Remova o código que cria a lista de Strings para teste.
+Por fim, adicione e modifique o toString() da classe Aluno para que retorne o atributo nome. Aproveite esse momento e remova os getters, pois não são mais utilizados.
+
+Para testar o novo comportamento, após salvar o aluno, chame o método startActivity enviando o contexto da FormularioAlunoActivity e a referência de classe da ListaAlunosActivity respectivamente via argumento. Execute o App e veja se o formulário salva o aluno a apresenta o aluno na lista de alunos.
+
+Após a implementação proposta pelo exercício, temos o seguinte comportamento no App:
+
+
+Agora o nosso App é capaz de realizar o fluxo de salvar o aluno na lista. Como resultado via código temos as seguintes implementações:
+
+Aluno.java:
+package br.com.alura.agenda.model;
+
+import android.support.annotation.NonNull;
+
+public class Aluno {
+    private final String nome;
+    private final String telefone;
+    private final String email;
+
+    public Aluno(String nome, String telefone, String email) {
+        this.nome = nome;
+        this.telefone = telefone;
+        this.email = email;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return nome;
+    }
+}COPIAR CÓDIGO
+AlunoDAO.java:
+package br.com.alura.agenda.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.alura.agenda.model.Aluno;
+
+public class AlunoDAO {
+
+    private final static List<Aluno> alunos = new ArrayList<>();
+
+    public void salva(Aluno aluno) {
+        alunos.add(aluno);
+    }
+
+    public List<Aluno> todos() {
+        return new ArrayList<>(alunos);
+    }
+}COPIAR CÓDIGO
+FormularioAlunoActivity.java
+package br.com.alura.agenda.ui.activity;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import br.com.alura.agenda.R;
+import br.com.alura.agenda.dao.AlunoDAO;
+import br.com.alura.agenda.model.Aluno;
+
+public class FormularioAlunoActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_formulario_aluno);
+
+        final AlunoDAO dao = new AlunoDAO();
+
+        // restante do código
+
+        Button botaoSalvar = findViewById(R.id.activity_formulario_aluno_botao_salvar);
+        botaoSalvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // restante do código
+
+                Aluno alunoCriado = new Aluno(nome, telefone, email);
+                dao.salva(alunoCriado);
+
+                startActivity(new Intent(FormularioAlunoActivity.this,
+                        ListaAlunosActivity.class));
+            }
+        });
+    }
+}COPIAR CÓDIGO
+ListaAlunosActivity.java:
+package br.com.alura.agenda.ui.activity;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import br.com.alura.agenda.R;
+import br.com.alura.agenda.dao.AlunoDAO;
+
+public class ListaAlunosActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lista_alunos);
+
+        AlunoDAO dao = new AlunoDAO();
+
+        setTitle("Lista de alunos");
+
+        ListView listaDeAlunos = findViewById(R.id.activity_lista_alunos_listview);
+        listaDeAlunos.setAdapter(new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                dao.todos()));
+    }
+}
+
+@@05
+Finalizando fluxo do App
+
+Agora que conseguimos implementar uma solução em que salvamos o aluno e o disponibilizamos na lista de alunos, precisamos corrigir o fluxo da aplicação, que tem que começar a partir da lista de alunos, clicar no FloatingActionButton, e só depois entrar no formulário, salvar esse aluno e voltar para a lista. Precisamos aplicar esse fluxo, e o primeiro passo a fazer é modificar o nosso Manifest, dado que ele está inicializando primeiro o nosso formulário.
+Como vimos, iremos inicializar a nossa Activity de lista de alunos, portanto agora o nosso formulário não faz mais sentido manter como Launcher, então removeremos o Launcher dele. E dado que ele não vai colocar nenhum Intent Filter ou algo do gênero, não vai abriremos essa Activity dentro do nosso Manifest. Apenas declararemos em uma única linha e também vamos fechar dentro dessa única linha.
+
+Então agora estamos mantendo o formulário Activity sem ser uma Launcher, pois será uma Activity qualquer. Agora, a nossa lista de alunos vai voltar a ser a nossa Launcher, para isso pegaremos todo o código de Intent Filter que está comentado, e vamos descomentar com "Ctrl + barra de espaço". E agora ela passou a ser a Launcher da nossa Activity.
+
+Agora que corrigimos esse primeiro passo, o próximo consiste em fazer com que, a partir da lista, consigamos acessar o nosso formulário. Para isso, precisamos inicializar o nosso formulário, mas, quando? É a partir do nosso FloatingActionButton, então primeiro pegaremos o nosso botão a partir do nosso findViewById, pegando a referência do nosso fab, e vamos pegar a referência.
+
+Indicaremos que estamos trabalhando com o FloatingActionButton e colocaremos a referência de um FloatingActionButton. Assim, precisamos fazer a alteração do seu comportamento de clique. Sabemos que precisamos de um Listener, então iremos colocar um botão novo aluno, e quando o clique acontecer, teremos o ouvinte, aí modificaremos o comportamento.
+
+A implementação será a mesma, e no método onClick, que é onde podemos modificar os comportamentos, vamos inicializar a Activity de formulário. Agora sim, estamos criando um intent que virá da nossa lista alunos Activity e vai para o formulário alunos Activity. Vamos testar e ver o que acontece agora que temos o fluxo corrigido.
+
+Vamos abrir o nosso emulador para que, assim que finalizar a execução, o Android apareça para nós. Então vamos clicar do FloatingActionButton, e ele abriu o nosso formulário. Vamos registrar um aluno, Alex, colocamos a informação de telefone, do e-mail, e clicaremos em "Salvar".
+
+Ele abre a nossa lista de alunos e salva-o. Iremos clicar novamente para podermos ter um novo aluno e ver se funciona com mais de um. Aparentemente está funcionando certo, ele conseguiu colocar o Alex e também a Fran; porém, essa solução que fizemos tem um comportamento que não é dos esperados.
+
+Começaremos a voltar as telas e ver o que acontece. Apareceu a tela de formulário com as informações da Fran, a princípio nenhum problema, se voltarmos mais uma vez, ele voltou novamente para a lista de alunos, só com a informação do Alex. Se voltarmos mais uma vez, ele volta para o nosso formulário com as informações do Alex.
+
+Realmente, o fluxo que esperamos não está funcionando como esperado, isso está acontecendo justamente porque estamos sempre inicializando uma nova Activity. Como comentado, cada vez que inicializarmos uma Activity, vai sempre empilhando uma a outra. Ou seja, quando começamos a nossa lista de alunos e inicializamos a de formulário, colocamos esta em cima, nessa pilha de Activities.
+
+E a partir do formulário, quando salvamos o aluno e ele criou outra Activity, ele empilhou uma nova Activity na lista de alunos, ou seja, não é mais essa primeira que criamos. Só queremos manter essa única Activity inicialmente, e não queremos criar uma nova cada vez que criarmos um novo aluno. Portanto, a nossa solução atual não faz sentido para os objetivos que queremos alcançar.
+
+Então, ao invés de sempre criarmos uma nova Activity cada vez que salvamos alunos, vamos finalizar a Activity de formulário, e dessa maneira ela volta para essa Activity de lista de alunos, que é justamente o comportamento esperado, que não é sempre criar uma nova lista.
+
+Voltando ao formulário aluno Activity, para finalizarmos uma Activity, temos um método que é o finish, com que automaticamente o sistema do Android mata a Activity, fazendo com que seja retornado para a Activity anterior que deu início para essa, e aí seria o comportamento de desempilhar a Activity que estava na pilha de Activities.
+
+Essa pilha também é conhecida como Tasks, caso você ouça falar, é a partir dele que ele vai sempre empilhando Activities. Agora que colocamos esse novo conceito, vamos executar o nosso aplicativo e ver o que acontece. Agora, o comportamento será: a partir da lista de alunos, ele vai inicializar o nosso formulário, e com o cadastro de um aluno, ele vai finalizar e voltar para a Activity anterior, que no caso é a nossa lista de alunos.
+
+Vamos ver se isso acontece. Cadastraremos um aluno, o Alex, e colocaremos todas as suas informações. Desta vez, finalizamos, e não inicializamos uma nova Activity, então esse comportamento vai salvar, e não aparece o aluno. Isso já é um comportamento esperado, pela forma como estamos utilizando a nossa estratégia para poder computar as informações dos alunos. Para trabalharmos com as Activities, e colocar comportamentos para elas, utilizamos um estado a partir do seu ciclo de vida.
+
+Mas não exploramos muito bem como é que funcionam esses estados, e estamos sempre colocando as informações de alunos a partir do momento em que a Activity é criada, e é por isso que dessa forma, cada vez que inicializamos uma Activity, sempre apareciam as informações do nosso DAO. Apareceu a Fran na última inicialização, porque na última inicialização, realmente, o onCreate, a criação da Activity, foi feita manualmente, e é por isso que apareceu.
+
+Dado que agora não estamos criando de novo a Activity, não faz tanto sentido mantermos esses novos comportamentos nessa criação. Para entendermos as outras possibilidades, veremos um pouquinho mais sobre essa parte de ciclo de vida. Como é que conseguimos identificar essa parte?
+
+Utilizamos a documentação do próprio Android Developers (em inglês), cujo site muda constantemente, então de repente o layout não será o mesmo, mas normalmente sempre terá um menu, um campo para pesquisa na documentação. Vamos pesquisar por "Activity", e dessa maneira ele vai buscar por toda a documentação para ver se acha alguma referência que nos informe sobre Activity. Dessas opções, escolheremos a que envolve justamente a classe Activity.
+
+Ele vai mostrar a documentação da Activity, falar sobre a classe e o seu objetivo, a ideia, comportamentos comuns, e assim por diante. Dentre essas opções, dado que é uma documentação bem grande, entraremos no índice, nessa parte que mostra todos os tópicos, no Activity Lifecycle. Temos um diagrama com que entenderemos quando acontece cada um dos estados em relação ao ciclo de vida, então vamos explorar um pouquinho mais sobre isso.
+
+Partiremos do topo do diagrama, que é quando a Activity é lançada, ou launched, e criada por meio do onCreate, como já vimos. Inclusive, quando criávamos Actitivies via galeria, ele já colocava todo o código no onCreate. Se percebermos, o onCreate parece ser o primeiro método que é chamado, seguido por onStart, onResume, sendo que este significa que a Activity está rodando.
+
+Então, para a Activity rodar, ele roda esses três estados. E se uma outra Activity aparecer na frente dessa que está rodando, ela vai vir para esse estado de onPause, que é quando abrimos o formulário. Dentro dele, já temos alguns comportamentos um pouquinho diferentes, porque terão situações nas quais ele vai rodar um determinado ciclo ou estado a partir do ciclo de vida. Então, por exemplo, se o usuário retornar para a Activity anterior, que é justamente o que forçamos quando salvamos no nosso formulário, ele irá voltar para o onResume, ou seja, ele não volta para o onCreate.
+
+Então, se quiséssemos colocar um comportamento a mais, e quiséssemos realmente pegar as informações do nosso DAO, era no onResume que faria todo sentido, dado que quando voltamos de uma outra Activity para a nossa, ele volta para o onResume. Só que aí tem alguns detalhes que são importantes: nem sempre vai ser para o onResume que voltaremos. Dependendo da situação, isso é quando fazemos o nosso fluxo normal e as coisas funcionam da maneira esperada.
+
+Em casos excepcionais, dado que estamos falando sobre ciclo de vida, se a Activity ficar muito tempo não visível, pode ser que ela entre nesse onStop, e depois que ela entra nesse onStop, ela vai entrar em outros estados, por exemplo, se o usuário navegar para essa Activity, ela virá para o onRestart, e para onStart, depois para o onResume.
+
+Então, o onResume vai ser executado também, mesmo entrando em onStop, mas aí terá um passo a mais, o onStart, não diretamente o onResume, então ele acaba sendo o ideal para manter aquela técnica de manter os nossos dados, mas é bem importante saber que essas possibilidades podem estar acontecendo.
+
+Do mesmo jeito, se ele entrar no onStop, existem alguns riscos no caso do Android precisar de memória, pois nesse caso ele irá matar o nosso aplicativo. E no momento em que voltarmos à Activity, ele entrará no onCreate novamente. Isso não é um caso muito comum de acontecer, geralmente em celulares com menos capacidade de processamento, que vai sempre gerenciando a memória, limpando, e assim por diante.
+
+Esses são os casos excepcionais: quando entrarmos no onStop, é um caso um pouquinho perigoso, e nossa Activity pode ser que se perca, se de repente estar fazendo um procedimento que precisa ser garantido que seja finalizado, se você identificar que entrou no onStop, é preciso fazer alguma outra ação para poder garantir que esse procedimento seja concluído da maneira esperada.
+
+É por isso que é importante conhecer sobre o ciclo de vida, porque dessa maneira vamos conseguir colocar os comportamentos da maneira esperada. Dado que identificamos que faz todo o sentido mantermos no onResume, e que quando voltarmos ao formulário, ele virá para cá, ou se ele for ao onStop e voltar para a nossa lista e para o onResume, evitaremos aquele problema que vimos.
+
+Agora vamos voltar ao nosso projeto, o nosso aplicativo e, ao invés de colocarmos esse comportamento da nossa lista dentro desse onCreate, iremos recortá-lo e sobrescrever o nosso onResume, que chamará novamente o super, e assim por diante. Dado que o nosso DAO está sendo acessível dentro do onResume, vamos deixar uma declaração dele também.
+
+Agora que fizemos essa modificação, podemos testar e ver se funciona da maneira esperada, então vamos executar o nosso aplicativo novamente, e veremos o que acontece agora que modificamos esse comportamento de criar nossa lista dentro de um estado que faz sentido para o ciclo de vida dado o nosso fluxo.
+
+Perceba que realmente conhecer sobre essa parte ciclo de vida é bem importante, e cada vez que tiver uma peculiaridade que você não esteja tão confortável em relação ao Android, em específico o Android Framework, sempre venha à documentação, reveja o diagrama para entender o que está acontecendo.
+
+É dessa maneira que acabamos conversando com o Android Framework, e entendendo as APIs e seus comportamentos de acordo com que o Android nos disponibiliza. Conseguimos finalizar esse fluxo do nosso aplicativo.
+
+@@06
+Ajustando o fluxo do App
+
+Ajuste o fluxo do App para que ele entre primeiro na lista de alunos, então, ao tocar fab entre no formulário e realize o procedimento de salvar o aluno da maneira esperada.
+Para isso, ajuste o arquivo de manifesto do Android para que a lista de alunos seja a launcher. Então adicione um listener no fab para que inicie a FormularioAlunoActivity.
+
+Lembre-se de manter apenas a lista como launcher.
+Em seguida, migre o código que configura o adapter no ListView e deixe no onResume() para evitar o problema de não apresentar os alunos salvos.
+
+Em seguida, na FormularioAlunoActivity, ao invés de inicializar a ListaAlunosActivity ao salvar o aluno, finalize a Activity a partir do método finish().
+
+Rode o App e realize o teste o fluxo que permite salvar o aluno.
+
+O App deve apresentar o seguinte aspecto visual durante o fluxo de salvar o aluno:
+
+
+Observe que ao salvar o aluno e apertar o botão back do Android, não volta mais para o formulário! Em código temos o seguinte resultado:
+
+AndroidManifest.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="br.com.alura.agenda">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".ui.activity.ListaAlunosActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activity.FormularioAlunoActivity" />
+    </application>
+
+</manifest>COPIAR CÓDIGO
+ListaAlunosActivity.java:
+package br.com.alura.agenda.ui.activity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import br.com.alura.agenda.R;
+import br.com.alura.agenda.dao.AlunoDAO;
+
+public class ListaAlunosActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lista_alunos);
+
+        setTitle("Lista de alunos");
+
+        FloatingActionButton botaoNovoAluno = findViewById(R.id.activity_lista_alunos_fab_novo_aluno);
+        botaoNovoAluno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ListaAlunosActivity.this,
+                        FormularioAlunoActivity.class));
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        AlunoDAO dao = new AlunoDAO();
+
+        ListView listaDeAlunos = findViewById(R.id.activity_lista_alunos_listview);
+        listaDeAlunos.setAdapter(new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                dao.todos()));
+    }
+}COPIAR CÓDIGO
+FormularioAlunoActivity.java:
+package br.com.alura.agenda.ui.activity;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import br.com.alura.agenda.R;
+import br.com.alura.agenda.dao.AlunoDAO;
+import br.com.alura.agenda.model.Aluno;
+
+public class FormularioAlunoActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_formulario_aluno);
+
+        final AlunoDAO dao = new AlunoDAO();
+
+        // restante do código
+
+        Button botaoSalvar = findViewById(R.id.activity_formulario_aluno_botao_salvar);
+        botaoSalvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // restante do código
+
+                Aluno alunoCriado = new Aluno(nome, telefone, email);
+                dao.salva(alunoCriado);
+
+                finish();
+            }
+        });
+    }
+}COPIAR CÓDIGO
+Agora o nosso App realiza o fluxo esperado com base na proposta de implementação.
+
+@@07
+Refatoração de código
+
+Agora que finalizamos a implementação tanto da listagem quanto do cadastro de alunos, faz todo sentido darmos uma olhada no nosso código que utilizamos para esta implementação, analisar a qualidade do mesmo, e verificar se há necessidade de aplicarmos algum tipo de técnica de refatoração, visando maior qualidade para o nosso código.
+Sendo assim, vamos entrar em cada um desses códigos do pacote raiz, seja o nosso DAO, o model, o ui.activity, e verificar como está esta implementação. Começaremos com AlunoDAO, e entrando nesta classe percebemos que ela é bem simples, e agora vem a questão: como é que podemos analisar esse código?
+
+Para fazermos essa análise, podemos começar com os importes, e verificar se todos eles estão sendo utilizados. Então não existe uma técnica ou aplicação para melhorar, ele já está muito bem definido. O próximo passo é verificar a implementação via classe, e seus membros, dentre os quais percebemos que temos um atributo que representa uma lista de alunos, e para a nossa regra de negócio, faz todo sentido que seja um atributo privado, uma constante, e que também seja estático e fique em memória, porque é uma simulação que estamos fazendo de uma persistência de dados.
+
+Então poderia ser muito bem uma integração com banco de dados interno do Android, também poderíamos estar fazendo dessa maneira. Mas usamos essa solução estática justamente por ser uma implementação mais objetiva e simples, e que também atende a nossa necessidade, que é disponibilizar os dados para as nossas Activities. E da maneira como foi feito isso está muito bem definido.
+
+Fazemos até mesmo a inicialização na sua declaração, e não fazemos nenhuma outra modificação, e é por isso que é final. Em relação aos outros membros, que seriam os métodos, temos dois que são bem simples e muito bem definidos, tanto o salva quanto o todos. Como havíamos comentado, se devolvermos a referência direta perdemos o encapsulamento, pois qualquer um de fora vai modificar a nossa lista e comprometer os nossos dados internos. Por isso, mandar sempre uma cópia é a boa prática para esse tipo de situação. Então realmente o nosso AlunoDAO está mantendo um código de qualidade, da maneira esperada.
+
+Vamos para a próxima classe, que seria o nosso Aluno. Novamente verificaremos os importes, temos o NonNull, que utilizamos no nosso toString, primeiro porque o Android Studio acabou colocando no momento em que tentamos usar um template. E ele acaba utilizando bastante essa notação para indicar situações em que não faz sentido mandarmos referências nulas.
+
+Por exemplo, se retornarmos, ao invés do nome, uma referência nula, o próprio Android Studio irá fazer uma compilação e dar um aviso para nós indicando que estamos usando uma notação NonNull e indicando para quem for usar o seu método, que ele não irá receber nenhum nulo, só que estamos mandando, então não faz sentido que estejamos fazendo isso, e ele já faz esse alerta para nós, e temos que nos virar para mudar alguma coisa que não seja nula.
+
+No caso, seria o nosso atributo nome, dado que usamos esse toString para fazermos a listagem dos nossos alunos. Então, da maneira como está faz todo sentido mantermos desse jeito. Em seguida, percebemos que temos três atributos para o nosso aluno, e também faz todo sentido mantê-los, dado que a nossa regra de negócio só cria um aluno por meio de três valores, que seriam o nome, o telefone e o e-mail, representados pelos nossos atributos, que também são constantes e recebem os seus valores via construtor, dado que são obrigatórios nesse momento do nosso projeto.
+
+O construtor também está muito bem definido, e essa classe está simples e muito bem definida, então não há nada que precisamos modificar, então podemos passar para o próximo pacote, com um código um pouquinho mais complexo, as nossas Activities. Então, no nosso formulário aluno Activity, por exemplo, temos um código um pouquinho maior. Se olharmos os importes, perceberemos que há duas classes que não são utilizadas, e ficam um pouquinho cinza.
+
+Ele fala que é um importe que não está sendo usado, e podemos usar um atalho do próprio Android Studio, "Ctrl + Alt + O", que é otimização de importes, que já remove os que não são utilizados e deixa apenas o que é necessário. Conseguimos fazer essa primeira etapa. Se virmos a parte de implementação da classe, estamos fazendo uma extensão de AppCompatActivity, que nos entrega uma App bar, e também já entrega a compatibilidade de versões anteriores do Android ao qual estamos dando suporte.
+
+Realmente, é uma técnica, uma abordagem, que faz todo sentido mantermos. Estamos conseguindo manter da maneira como esperado. Agora, tem um detalhe, dada a questão da App bar. Já vimos que para podermos colocar um título temos que usar o setTitle, só que não estamos utilizando-o. Se observarmos o nosso formulário, estamos mantendo aquele nome ainda, que é "Agenda", sendo que na proposta de implementação o esperado é "Novo aluno".
+
+Portanto, agora que estamos aplicando essas técnicas de refatoração, também podemos colocar esses comportamentos que acabamos não dando tanta atenção, ou então acabamos nos esquecendo. Vamos adicionar o nosso setTitle. Tem um detalhe quando fazemos a refatoração.
+
+Toda vez que fazemos a modificação do código, e que é uma coisa nova, faz todo sentido executarmos. Nesse primeiro momento, vamos executar e ver se funciona da maneira esperada. Sempre que estivermos refatorando, a ideia é que se modifique o código conforme necessário, executemos para verificar se está funcionando, pois refatoração não pode modificar o comportamento que o código tinha antes.
+
+Então, entrando novamente percebemos que vai ter o título, por conta do setTitle. Agora sim, já temos um comportamento esperado.
+
+@@08
+Refatoração de código parte 2
+
+Agora, veremos como podemos deixar o código que colocamos aqui embaixo mais simples, porque, para entendermos que esse código cria um DAO, pega as referências, faz um Listener e configura o botão e depois cadastra um aluno, precisamos interpretar código. Existem técnicas que evitam essa interpretação e fazem com que apenas vejamos o código e entendamos o que fazem, sem entendermos nada da implementação. É dessa maneira que precisamos deixar.
+Então como podemos fazer isso? Uma das maneiras é a técnica bem famosa conhecida como extração, que é pegar esses punhados de código com comportamento esperado e deixá-los dentro de um método com o nome do que faz. Por exemplo, se pegarmos todo esse código percebemos que ele tem o objetivo de criar um aluno, então poderíamos pegar todo esse código e colocar dentro de um método separado.
+
+Há algumas técnicas do próprio Android Studio, não precisamos fazer isso de maneira manual, por meio do atalho "Ctrl + Alt = M", com que ele vai tentar extrair, só que esse código está dentro de uma classe anônima, então ele vai dar sugestões para deixar esse método dentro da classe anônima ou da Activity.
+
+Nesse caso o comportamento que será esperado pela sua Activity, por isso colocaremos a setinha para baixo e selecionaremos o FormularioAlunoActivity. Agora, sim, ele vai nos falar que, para extrairmos esses métodos, precisaremos desses três parâmetros: o campo nome, o campo telefone e o campo e-mail, pois eles são dependências para que o aluno seja criado.
+
+Precisaremos definir o nome, e definir o que esse método vai fazer, que é criar o aluno a partir desses campos que estamos criando. Agora, só lendo código já sabemos o que ele faz. Da mesma maneira, podemos extrair esses códigos, porque usamos o DAO para salvar e depois finalizar. Podemos indicar que quando usamos o DAO para salvar e usar o finish significa que queremos salvar o aluno.
+
+Então também podemos extrair esse código para a nossa Activity, e indicar que ele vai salvar a partir do aluno criado e do DAO. Temos um código que já faz mais sentido com o que queremos entender de regras de negócio, em vez de termos que ficar interpretando. Outra técnica, para reduzirmos mais ainda toda essa implementação é tentar extrair essa inicialização, que não é nada mais nada menos do uma inicialização de campos, que podemos extrair.
+
+Quando fazemos isso ele reclama por não conseguir refatorar, dado que estamos usando como variável local. Para conseguirmos fazer essa refatoração, iríamos precisar tornar isso um atributo, porque dessa maneira todos os membros da classe Activity teria acesso. Da maneira como tentamos fazer, estamos perdendo o acesso desses atributos, por exemplo o nosso método criaAluno.
+
+Então, essa refatoração, para conseguirmos fazer da maneira esperada, que é deixar dentro de um método, primeiro precisamos deixar como atributo. Um detalhe bem importante: se vocês tentarem deixar como atributo dessa maneira, fazendo a inicialização, para poder mover o código pode-se utilizar o "Alt + Shift" com a setinha para cima e para baixo.
+
+Se deixarmos dessa maneira, teremos um problema na nossa aplicação; ela vai quebrar porque no momento em que chamamos esse findViewById, pegaremos a View que a nossa Activity tem e tentar buscar alguma outra que tenha esse ID, só que qual é o momento em que temos esse tipo de View?
+
+É no momento em que estamos invocando o nosso layout via arquivo XML. E quando criamos a instância da Activity, ainda não temos acesso a esse formulário, a esse layout que criamos. Portanto, se formos fazer uma busca de uma View, o ideal é sempre logo depois que você faz o setContentView.
+
+Então, para criar um atributo que seja de alguma View, que será buscada do layout setado de uma Activity, teremos que fazer a inicialização dentro do onCreate ou do onResume, ou de qualquer momento em que se faz o setContentView. Voltaremos ao código anterior com "Ctrl + Z" e criaremos esses atributos por meio do atalho do próprio Android Studio, "Ctrl + Alt + F".
+
+Aí ele nos pergunta como queremos, se vai ficar dentro desse método, que é o que faremos. Vamos criar um atributo para cada um deles. Dessa maneira temos a capacidade de extrair para um método indicando a inicialização dos campos, com "Ctrl + Alt + M". Assim deixamos o nosso código mais resumido e mais claro.
+
+Agora que temos acesso a todos os membros, podemos até deixar o nosso código mais simples, no criaAluno, pois mandamos via argumento porque só tínhamos via acesso local, e não à classe, com que todos os membros teriam acesso. Agora que todos os membros têm acesso, podemos apagar esses argumentos e, na assinatura, também não precisamos mais deles, e já podemos acessar diretamente os nossos atributos.
+
+Também podemos deixar esse AlunoDAO como atributo de classe para não termos que ficar mandando via argumento, ele não tem problema porque não lida com Views, e no nosso salva, não precisamos mandar o DAO, que também podemos usar diretamente do atributo. Ficou muito mais simples o nosso código, até mais claro do que está acontecendo.
+
+Por fim, o que podemos fazer também, é em relação à parte que pega o botão e faz a sua configuração de lista, em que temos bastante código. Também podemos extrair isso para outro método. Agora sim, deixamos bem mais tranquilo o nosso código, vamos ler para vermos se realmente fez alguma diferença.
+
+Temos uma indentação um pouquinho diferente dos outros atributos, e podemos usar um atalho que resolve isso para nós, que é o "Ctrl + Alt + L". Continuando no nosso código, percebemos que setamos o nosso título a partir do novo aluno, inicializa os campos e configuramos o botão, então são esses os passos que acontecem quando fazemos o nosso onCreate, e se quisermos verificar a implementação deles, com "Ctrl + B" verificamos que inicializamos o campo nome, o telefone e o e-mail.
+
+Se voltarmos novamente para configuraBotaoSalvar, percebemos que buscamos o botão, fazemos o setOnClickListener do nosso Listener, criamos e salvamos o nosso aluno. Se quisermos ver o salva veremos que se usa o DAO, a referência do aluno criado, que podemos modificar para ser uma referência genérica de aluno com "Shift + F6".
+
+E depois finalizamos o nosso formulário. É dessa maneira que a refatoração acaba ajudando bastante. O último ponto que acho bacana de comentar são os valores que acabamos deixando como estático, justamente essas informações que variam. Nesses casos a boa prática é deixarmos como uma constante, dado que esse valor não vai ser modificado. E se ele for modificado, a própria constante ainda vai manter o seu significado. Por isso usaremos "Ctrl + Alt + C" para indicar que ele representa o título da App bar.
+
+Se ele é um novo aluno ou aluna, qualquer outro título, não importa, sabemos que esse texto, essa string representa o título. Então por isso é sempre bom deixar em uma constante que dê mais significado para o que o valor que está mandando representa. Finalizamos a parte do nosso formulário Activity, e podemos fazer a execução do projeto.
+
+A ideia de refatoração não é modificar o comportamento do nosso projeto ou quebrá-lo, é manter na mesma maneira como era antes, porém com código que faça mais sentido e tenha mais qualidade. Então se executarmos novamente, o que tem que acontecer é o mesmo comportamento de antes, não tem que mudar nada.
+
+Após o teste vimos que realmente não teve nenhum impacto, agora podemos entrar na nossa lista alunos Activity e aplicar exatamente o mesmo comportamento. Nos importes vemos que tem três sendo inutilizados, e mais abaixo temos bastante código com significados, em que podemos aplicar a extração.
+
+Precisa fazer as extrações, no Floating Action Button, na string que pode ser uma constante, que representa o título da App bar. Se olharmos um pouquinho mais do código que está dentro do Listener, percebemos que temos justamente uma inicialização da Activity, então podemos colocar dentro de um método para indicar que ele vai abrir o nosso formulário, com "Ctrl + Alt + M", um método da própria Activity, indicando que ele vai abrir o formulário.
+
+Dentro dos métodos temos as nossas peculiaridades. Fazendo isso temos outro benefício, que não precisamos estar mandando essa referência dessa maneira verbosa, dado que ele não está mais dentro da nossa classe anônima, podemos mandar apenas this, que já fica bem mais enxuto.
+
+Apertando "Ctrl + Alt + L" para fazermos a indentação, continuaremos no onResume, em que temos o AlunoDAO, com uma configuração da nossa lista, então também podemos fazer a extração, então, com "Ctrl + Alt + M", e dentro dela recebemos o nosso DAO, ou então poderíamos ter tornado ele um atributo, que fazemos com "Alt + Shift" e setinha para cima, da mesma maneira como fizemos no nosso formulário, e também deixaremos como private final.
+
+Faz todo sentido deixarmos como private; sempre que não estivermos expondo, deixaremos como private, e em configuraLista não precisamos deixar via argumento, como acesso via atributo. Dessa maneira, sabemos que fazemos a configuração do nosso Adapter. Isso deixa o nosso código bem simples, então, fica claro que no onCreate setamos o título, configuramos o nosso fab novo aluno, na configuração buscamos o fab e fazemos a configuração de Listener, que vai abrir o formulário quando for clicado.
+
+No abre formulário, fazemos o nosso startActivity a partir de nós mesmos, criando uma intent, e depois mandando a referência do formulário aluno Activity. Por fim, no onResume, configuramos a nossa lista, que vai pegar a referência da nossa lista e setar o Adapter com base no ArrayAdapter, que vai pegar nossa referência de contexto, esse layout, e vai mandar todos os nossos alunos a partir do nosso DAO.
+
+Por fim, feita toda essa refatoração, faz todo sentido executarmos o projeto e ver se funciona da maneira adequada. Lembre-se: toda vez que uma fatoração for feita, é preciso executar o projeto para ver se ele tem exatamente o mesmo comportamento de antes, e isso é muito importante.
+
+Ele não pode quebrar, nem apresentar comportamentos inesperados, tem que funcionar da maneira esperada. Testando novamente percebemos que conseguimos fazer os mesmos comportamentos de antes, dado que não mexemos em Views, então não temos nenhum problema em questão disso, é mais essa parte de código de regras de negócio, de lógica.
+
+Então percebemos que está funcionando, não teve nenhum problema, porque, extração, no geral, acaba não tendo tanto impacto. Conseguimos finalizar essa parte de refatoração, que é muito importante no nosso código.
+
+@@09
+Refatorando o código do App
+
+Aplique a refatoração em todo o código do projeto. Nesta refatoração, considere técnicas como extração de métodos, atributos ou constantes. Também, lembre-se de aplicar o título no App Bar da FormularioAlunoActivity.
+Cada vez que aplicar a refatoração em alguma parte do código, execute o projeto e verifique se ele mantém o comportamento esperado.
+
+É importante ressaltar que refatoração pode ser feita de várias maneiras, ou seja, não precisa ser exatamente como foi visto aula, como por exemplo, extrações de atributos às vezes não é necessário, portanto, é possível manter variáveis locais... No geral, o importante é deixar o código cada vez mais simples e fácil de compreender.
+
+Para esta atividade separei um commit via GitHub com as modificações no código feitas em aula, dessa forma, é possível verificar de maneira precisa o que mudou após refatoração.
+Se o seu resultado foi diferente, não significa que está errado! Caso ele seja compreensível com base na leitura rápida, atende à proposta de refatoração ;)
+
+https://github.com/alura-cursos/fundamentos-android-parte-1/commit/20572e3c6588ad2f5d5cf1f18206700651892fe
+
+@@10
+Ciclo de vida de Activities
+
+Para viabilizar o fluxo de salvar o aluno começando pela lista de alunos, entrando no formulário e, depois da ação de salvar, mostrar o aluno na lista, tivemos que explorar mais sobre o ciclo de vida das Activities dentro do Android. Por qual motivo foi necessário esse conhecimento?
+
+Para evitar que as Activities ficassem empilhadas cada vez que fosse criada uma nova.
+ 
+Conhecer sobre o ciclo de vida não está relacionado à forma como o sistema do Android se comporta quando inicializamos uma nova Activity.
+Alternativa correta
+Para que a execução de criação de lista fosse executada após voltar na lista de alunos.
+ 
+Isso mesmo! Ao conhecer as possibilidades que o ciclo de vida fornece, somos capazes de migrar códigos que precisam ser executados novamente dependendo da situação.
+Alternativa correta
+Para manter os alunos salvos no App, mesmo que o App fosse fechado.
+ 
+Alternativa correta
+Para evitar que o App quebrasse cada vez que um aluno fosse salvo no DAO.
+
+@@11
+O que aprendemos?
+
+Nesta aula, aprendemos a:
+Aplicar comportamentos nas views com listeners;
+Aplicar técnica de persistência de dados a partir do padrão DAO;
+Utilizar adequadamente os estados do ciclo de vida de uma Activity;
+Refatorar o código das Activities.
+
+@@12
+Projeto final
+
+Caso tiver alguma dúvida ou quiser consultar o projeto final, incluíndo o desafio, você pode baixá-lo a partir deste link ou acessar o repositório do GitHub.
+
+https://github.com/alura-cursos/fundamentos-android-parte-1/archive/aula-5.zip
+
+https://github.com/alura-cursos/fundamentos-android-parte-1
+
+@@13
+Conclusão
+
+Chegamos ao final da primeira parte do curso de fundamentos no Android! Se você chegou até aqui, está de parabéns, porque você conseguiu concluir a primeira etapa na sua carreira como desenvolvedor Android. Aproveitando esse momento de conclusão, vamos verificar tudo que aprendemos, e fazer uma revisão de todo o conteúdo absorvido durante esse curso.
+Então, no começo, quando estávamos aprendendo sobre o que é o Android, tivemos uma bela introdução sobre o sistema operacional, a plataforma, e vimos todas as possibilidades que o Android nos provê, seja por questões de plataformas que atendem, de possibilidades para os nossos projetos, como também o que temos como benefício, um ganho de usuários dado que a plataforma do Android, como a Play Store, a loja de aplicativos, tem diversos dispositivos ativos. Vimos que esse é um grande benefício que temos para podermos desenvolver aplicativos Android.
+
+Vimos que para isso temos algumas alguns pré-requisitos. Aprendemos a utilizar o Android Studio, que é a ferramenta oficial para desenvolvimento de aplicativos Android. Vimos que temos, por exemplo, um SDK para disponibilizarmos o Android Framework com as suas APIs da maneira como acabamos utilizando durante o curso. Também vimos que para podermos desenvolver acabamos usando a linguagem Java utilizando Orientação a Objetos.
+
+Vimos que o conhecimento de orientação objetos acaba sendo bem benéfico durante o curso, na questão de herança, interfaces, e assim por diante. Aprendemos diversas questões que são introdutórias do Android, e que envolvem os seus principais componentes, como é o caso da Activity. Vimos que ela é um membro bem importante no Android Framework, e é por meio dela que temos capacidade, por exemplo, de criar as nossas telas para os aplicativos.
+
+Também aprendemos a teoria básica, e na prática, como ela funciona, vimos que é uma entidade que mantém uma View, justamente essa representação visual que os nossos olhos terão, e também a parte lógica, como é o caso de fazer uma listagem ou dar uma atribuição de uma ação para um componente visual, como no caso desse Floating Action Button.
+
+Então, quando clicamos, damos uma ação para ele, que é abrir um formulário. Vimos que a Activity nos permite fazer isso, é claro, houveram diversas peculiaridades para criar uma Activity e mantê-la funcionando, como ao criarmos uma classe para representá-la, fazendo a herança da maneira como se espera, a partir das classes Activity disponíveis a partir do nosso Android Framework.
+
+Para isso precisamos registrar o Android Manifest, a partir do qual teremos a capacidade de falar para o sistema operacional que nossa Activity é realmente uma Activity que ele vai gerenciar. Acabamos aprendendo diversas técnicas para isso, e é claro, não menos importante, ainda temos a capacidade de estarmos fazendo a parte de renderização de layout, vimos via código Java, e também vimos que a boa prática é manter em código estático a partir dos nossos resources, que são os layouts fixos.
+
+Aprendemos a criar estes layouts, seja para a nossa lista de alunos, a primeira tela, como para o nosso formulário. Aprendemos bastante técnica em relação à criação de layouts, utilizando o editor visual por meio de técnicas de drag and drop, que é clicando, segurando e soltando. Aprendemos também a usar o nosso XML, que tem uma DSL que a própria equipe do Android, de desenvolvedores, disponibiliza, por meio de seus XML, com que colocamos cada um dos componentes.
+
+Aprendemos sobre níveis de hierarquia e vimos que são bem importantes essas regras, porque precisamos entender que teremos um elemento raiz, que necessariamente faz sentido ser uma View Group para manter as suas Views filhas, e outras regras que vimos durante o meio do caminho. São muitas peculiaridades, e vimos que é um conteúdo bem extenso mesmo.
+
+Vimos também que é possível, por exemplo, fazer uma integração entre esses layouts, se queremos pegar um determinado conteúdo, existe uma classe R que representa os resources e que permitem acesso a esses conteúdos, seja o próprio layout ou um componente específico a partir dos seus IDs, que são bem importantes. A partir deles conseguimos identificar as nossas Views e fazer os comportamentos esperados.
+
+Aprendemos diversas técnicas que envolvem a parte da Activity, a sua criação, layouts, Manifest, e assim por diante e a partir desses três pilares conseguimos criar as nossas telas de listagem e formulário. Conseguimos fazer nosso cadastro de aluno, e finalizar essa implementação, é claro, aprendemos diversas peculiaridades também, que acabaram sendo adicionadas conforme necessidade.
+
+Como é o caso de adicionarmos esses componentes, clicar no botão e salvar, e vimos que teve muitas questões para poder funcionar, como é o caso de implementar um Listener, de usar uma técnica de um DAO para manter os dados, porque precisamos acessar em cada uma das Activities, seja para salvar ou para buscar esses dados.
+
+Acabamos utilizando o nosso DAO para isso, vimos que ele foi bem beneficente para esse tipo de situação, e também que exploramos bastante coisa que é comum em aplicações iniciais de Java, como é o caso de criar um modelo, que é exatamente o mesmo comportamento que temos em uma linguagem Java; a diferença é que fazemos uma integração com o que o Android Framework acaba nos disponibilizando, que são suas Activities e classes com suas próprias regras para funcionar da maneira esperada.
+
+No finalzinho acabamos aplicando refatoração e conhecendo um pouquinho mais sobre o ciclo de vida, que não é um assunto trivial, que exige um tempinho para podermos estar absorvendo e entendendo de verdade, como é que funciona, mas vimos que cada um desses componentes, de cada uma dessas etapas, tem a sua importância.
+
+Espero que você tenha ficado contente e tenha conseguido fazer o seu primeiro aplicativo, que tudo tenha funcionado da maneira esperada. Caso você tenha algum tipo de dificuldade, fique à vontade para nos mandar nos comentários após a finalização. Dessa maneira iremos coletar todo o feedback de vocês e vamos tentando melhorar o conteúdo. Também é muito importante você falar do que gostou, porque dessa maneira acaba ajudando meu trabalho, nosso trabalho na Alura no geral, e conseguimos entregar cada vez mais um conteúdo melhor para você.
+
+Forte abraço e até mais.
